@@ -1,6 +1,0 @@
-@TutorNet.Server_HostAddress = http://localhost:5054
-
-GET {{TutorNet.Server_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
