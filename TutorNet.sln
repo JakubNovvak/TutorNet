@@ -3,9 +3,41 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "tutornet.client.gui", "Source\Client\TutorNet.Client.GUI\tutornet.client.gui.esproj", "{5022E080-F40A-4C0E-ABA4-E5B8E1BD2E0D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{1ABCEFC5-1DD4-4345-BBDD-4F3E48C4EA61}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{73E7B1F3-2A00-463F-95DA-B536FD7AB5D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{D26271C0-A31E-461F-8D93-222569923B58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutorNet.Server.API", "Source\Server\TutorNet.Server.API\TutorNet.Server.API.csproj", "{817C7702-D68B-4DD6-9384-3A39058534E5}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5022E080-F40A-4C0E-ABA4-E5B8E1BD2E0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5022E080-F40A-4C0E-ABA4-E5B8E1BD2E0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5022E080-F40A-4C0E-ABA4-E5B8E1BD2E0D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{5022E080-F40A-4C0E-ABA4-E5B8E1BD2E0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5022E080-F40A-4C0E-ABA4-E5B8E1BD2E0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5022E080-F40A-4C0E-ABA4-E5B8E1BD2E0D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{817C7702-D68B-4DD6-9384-3A39058534E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{817C7702-D68B-4DD6-9384-3A39058534E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{817C7702-D68B-4DD6-9384-3A39058534E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{817C7702-D68B-4DD6-9384-3A39058534E5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5022E080-F40A-4C0E-ABA4-E5B8E1BD2E0D} = {73E7B1F3-2A00-463F-95DA-B536FD7AB5D7}
+		{73E7B1F3-2A00-463F-95DA-B536FD7AB5D7} = {1ABCEFC5-1DD4-4345-BBDD-4F3E48C4EA61}
+		{D26271C0-A31E-461F-8D93-222569923B58} = {1ABCEFC5-1DD4-4345-BBDD-4F3E48C4EA61}
+		{817C7702-D68B-4DD6-9384-3A39058534E5} = {D26271C0-A31E-461F-8D93-222569923B58}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1519123E-877E-4060-BB89-8A00D9EAA9A6}
