@@ -1,7 +1,8 @@
 import React from 'react';
-import { Toolbar, Box, AppBar, styled } from '@mui/material';
+import { Toolbar, Box, AppBar } from '@mui/material';
 import {motion, AnimatePresence, MotionProps } from "framer-motion";
 import TutorNetLogo from '../../assets/TutorNetLogo.png';
+import RegistrationComponents from './RegistrationComponents';
 
 const navColor = "#201c1c";
 
@@ -26,6 +27,7 @@ export default function NavigationBar(){
                     <Toolbar sx={{ marginTop: "5px", marginBottom: "5px"}}>
                         <AnimatePresence>
                             <AnimatedLogo />
+                            <RegistrationComponents />
                         </AnimatePresence>
                     </Toolbar>
                 </AppBar>
