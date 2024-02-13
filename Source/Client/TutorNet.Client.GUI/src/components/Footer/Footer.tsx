@@ -24,7 +24,7 @@ function Footer () {
           </section>
   
           <section className={styles.FooterCopyright}>
-            Copyright © 2024 TutorNet
+            Copyright © 2024 TutorNet | All Rights Reserved
           </section>
         </section>
       </footer>
