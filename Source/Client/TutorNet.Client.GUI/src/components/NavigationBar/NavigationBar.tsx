@@ -1,15 +1,22 @@
+import React from 'react';
 import { Toolbar, Box, AppBar, styled } from '@mui/material';
-import reactLogo from './assets/react.svg';
+import {motion, AnimatePresence, MotionProps } from "framer-motion";
 import TutorNetLogo from '../../assets/TutorNetLogo.png';
 
-const AnimatedImage = styled("img")({
-    transition: 'all 0.3 ease-in-out',
-    '&:hover': {
-        transform: 'scale(1.1)'
-    }
-});
-
 const navColor = "#201c1c";
+
+const AnimatedLogo = React.forwardRef<HTMLImageElement, MotionProps>((props, ref) => (
+    <motion.img
+        ref={ref}
+        whileHover={{ scale: 1.15 }}
+        whileTap={{ scale: 0.95 }}
+        transition={{ duration: 0.2 }}
+        src={TutorNetLogo}
+        alt="TutorNetLogo"
+        style={{height: "40px"}}
+        {...props}
+    />
+));
 
 export default function NavigationBar(){
     return (
@@ -17,7 +24,9 @@ export default function NavigationBar(){
             <Box sx={{flex: 1}}>
                 <AppBar sx={{ background: navColor}} position="static">
                     <Toolbar sx={{ marginTop: "5px", marginBottom: "5px"}}>
-                        <AnimatedImage src={TutorNetLogo} style={{height: "45px"}}></AnimatedImage>
+                        <AnimatePresence>
+                            <AnimatedLogo />
+                        </AnimatePresence>
                     </Toolbar>
                 </AppBar>
             </Box>
