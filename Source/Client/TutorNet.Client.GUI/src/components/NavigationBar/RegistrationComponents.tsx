@@ -1,4 +1,4 @@
-import {Box, Button, Icon} from '@mui/material';
+import {Box, Button} from '@mui/material';
 //import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 
 export default function RegistrationComponents(){
