@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toolbar, Box, AppBar } from '@mui/material';
+import { Toolbar, Box, AppBar, Typography } from '@mui/material';
 import {motion, AnimatePresence, MotionProps } from "framer-motion";
 import TutorNetLogo from '../../assets/TutorNetLogo.png';
 import RegistrationComponents from './RegistrationComponents';
@@ -7,14 +7,15 @@ import RegistrationComponents from './RegistrationComponents';
 const navColor = "#201c1c";
 
 const AnimatedLogo = React.forwardRef<HTMLImageElement, MotionProps>((props, ref) => (
-    <motion.img
+    <motion.div
         ref={ref}
-        whileHover={{ scale: 1.15 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.99 }}
         transition={{ duration: 0.2 }}
-        src={TutorNetLogo}
-        alt="TutorNetLogo"
-        style={{height: "40px"}}
+        //src={TutorNetLogo}
+        //alt="TutorNetLogo"
+        //style={{height: "40px"}}
+        style={{display: "flex", flexDirection: "row"}}
         {...props}
     />
 ));
@@ -26,7 +27,12 @@ export default function NavigationBar(){
                 <AppBar sx={{ background: navColor}} position="static">
                     <Toolbar sx={{ marginTop: "5px", marginBottom: "5px"}}>
                         <AnimatePresence>
-                            <AnimatedLogo />
+                            <AnimatedLogo>
+                                <img src={TutorNetLogo} style={{height: "40px"}}/>
+                                <Typography variant='h5' fontWeight="bold" sx={{marginLeft: "10px", marginTop: "5px"}}>
+                                    TutorNet
+                                </Typography>
+                            </AnimatedLogo>
                             <RegistrationComponents />
                         </AnimatePresence>
                     </Toolbar>
