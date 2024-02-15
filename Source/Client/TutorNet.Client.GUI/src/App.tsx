@@ -14,15 +14,18 @@ function App() {
       <NavigationBar />
       <Box
         sx={{
-          minHeight: "calc(100vh - 235px)",
-          backgroundColor: "#e8e8e8",
+          //minHeight: "calc(100vh - 235px)",
+          minHeight: "calc(100vh)",
+          //backgroundColor: "#e8e8e8",
+          backgroundColor: "white",
           height: "100%"
         }}
       >
-
         {/* TODO: Here will be the rest od the content */}
         <HomePage />
       </Box>
+      {/* {TODO: Proper implementation fo that spacing below} */}
+      <Box height={150} bgcolor="white"></Box>
       <Footer />
     </>
   )
