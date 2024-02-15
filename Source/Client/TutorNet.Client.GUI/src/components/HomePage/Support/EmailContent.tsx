@@ -13,7 +13,7 @@ export default function PhoneCallContent()
                     </Typography>
 
                     <Typography component="div" variant='h5' sx={{marginTop: "20px"}}>
-                        <Typography fontWeight="bold">Monday-Sunday</Typography> 24h/7
+                        <Typography fontWeight="bold">Monday-Sunday</Typography> 24h / 7
                     </Typography>
 
                     <Typography fontWeight="bold" sx={{marginTop: "20px"}}>
