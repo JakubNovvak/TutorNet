@@ -2,7 +2,12 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {SampleNextArrow, SamplePrevArrow} from "./ArrowElements";
-import { styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
+import CarouselCard from './CarouselCard';
+import Image1 from "../../../assets/VisualTesting/image1.jpg";
+import Image2 from "../../../assets/VisualTesting/image2.jpg";
+import Image3 from "../../../assets/VisualTesting/image3.jpg";
+import Image4 from "../../../assets/VisualTesting/image4.jpg";
 
 const settings = {
     dots: false,
@@ -16,27 +21,39 @@ const settings = {
     prevArrow: <SamplePrevArrow />,
   };
 
-const Container = styled("div")({
-    minHeight: "580px"
+const Container = styled(Box)({
+    paddingTop: "60px"
+});
+
+const CardContainer = styled(Box)({
+    maxWidth: "1600px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
   });
 
 export default function HomeCarousel(){
     return(
         <Container>
+
             <Slider {...settings}>
-                <div>
-                    <h1>1</h1>
-                </div>
-                <div>
-                    <h1>2</h1>
-                </div>
-                <div>
-                    <h1>3</h1>
-                </div>
-                <div>
-                    <h1>4</h1>
-                </div>
+                <CardContainer>
+                    <CarouselCard imagePath={Image1} />
+                </CardContainer>
+
+                <CardContainer>
+                    <CarouselCard imagePath={Image2}/>
+                </CardContainer>
+
+                <CardContainer>
+                    <CarouselCard imagePath={Image3}/>
+                </CardContainer>
+
+                <CardContainer>
+                    <CarouselCard imagePath={Image4}/>
+                </CardContainer>
             </Slider>
+
         </Container>
     );
 }
