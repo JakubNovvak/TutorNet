@@ -5,15 +5,15 @@ const Arrow = styled("div")({
     "& .next": {
       position: "absolute",
       top: "50%",
-      color: "white",
-      right: "11%",
+      color: "black",
+      right: "5%",
       zIndex: "10",
     },
     "& .prev": {
       position: "absolute",
       top: "50%",
-      color: "white",
-      left: "11%",
+      color: "black",
+      left: "5%",
       zIndex: "10",
     },
   });
