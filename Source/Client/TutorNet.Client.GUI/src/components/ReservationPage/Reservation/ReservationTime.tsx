@@ -3,7 +3,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
-import { Box } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import { TimePickerProps } from '@mui/x-date-pickers/TimePicker/TimePicker.types';
 import { plPL } from '@mui/x-date-pickers/locales';
 
@@ -54,12 +54,6 @@ function shouldDisableTime(value: dayjs.Dayjs, view: TimeView): boolean {
     return false;
 }
 
-// const shouldDisableTime: TimePickerProps<Dayjs>['shouldDisableTime'] = (
-//     value,
-//     view,
-//   ) => (view === 'minutes' && value.minute() >= 1);
-
-
 export default function ReservationTime()
 {
     const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17T15:30'));
@@ -70,15 +64,17 @@ export default function ReservationTime()
     const minDate = today.startOf('year');
 
     return(
-        <Box sx={{paddingTop: "25px"}}>
-            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='pl' localeText={plPL.components.MuiLocalizationProvider.defaultProps.localeText}>
-                <DateTimePicker closeOnSelect={false} skipDisabled disablePast sx={{width: "418px"}} ampm={false} timeSteps={{minutes: 60}} defaultValue={todayStartOfTheHour}
-                maxDate={maxDate}
-                minDate={minDate}
-                shouldDisableTime={shouldDisableTime}
-                shouldDisableDate={shouldDisableDate}
-                />
-            </LocalizationProvider>
-        </Box>
+
+            <Box sx={{paddingTop: "25px"}}>
+                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='pl' localeText={plPL.components.MuiLocalizationProvider.defaultProps.localeText}>
+                    <DateTimePicker open closeOnSelect={false} skipDisabled disablePast sx={{width: "418px"}} ampm={false} timeSteps={{minutes: 60}} defaultValue={todayStartOfTheHour}
+                    maxDate={maxDate}
+                    minDate={minDate}
+                    shouldDisableTime={shouldDisableTime}
+                    shouldDisableDate={shouldDisableDate}
+                    />
+                </LocalizationProvider>
+            </Box>
+
     );
 }
