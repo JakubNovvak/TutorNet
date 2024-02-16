@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import NavigationBar from './components/NavigationBar/NavigationBar';
 import Footer from './components/Footer/Footer';
 import HomePage from './pages/Home/HomePage';
+import ReservationPage from "./pages/Reservation/ReservationPage";
 
 function App() {
   //const [count, setCount] = useState(0)
@@ -22,7 +23,9 @@ function App() {
         }}
       >
         {/* TODO: Here will be the rest od the content */}
-        <HomePage />
+        {/* <HomePage /> */}
+        <ReservationPage/>
+        
       </Box>
       {/* {TODO: Proper implementation fo that spacing below} */}
       <Box height={150} bgcolor="white"></Box>

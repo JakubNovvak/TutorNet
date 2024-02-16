@@ -7,7 +7,7 @@ const Container = styled("div")({
 export default function Statistics(){
     return(
         <Container>
-            
+            Join 
         </Container>
     );
 }
