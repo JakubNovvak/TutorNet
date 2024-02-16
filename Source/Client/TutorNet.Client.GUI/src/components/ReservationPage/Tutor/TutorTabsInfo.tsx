@@ -41,6 +41,8 @@ export default function TutorTabsInfo() {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    console.log(event);
+    //^^^^ Used only to get rid of VS the warning ^^^^
     setValue(newValue);
   };
 

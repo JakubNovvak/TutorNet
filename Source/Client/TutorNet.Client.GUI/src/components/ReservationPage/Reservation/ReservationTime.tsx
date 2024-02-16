@@ -1,15 +1,14 @@
-import * as React from 'react';
+//import * as React from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
-import { Box, Paper } from '@mui/material';
-import { TimePickerProps } from '@mui/x-date-pickers/TimePicker/TimePicker.types';
+import { Box, /*Paper*/ } from '@mui/material';
+//import { TimePickerProps } from '@mui/x-date-pickers/TimePicker/TimePicker.types';
 import { plPL } from '@mui/x-date-pickers/locales';
 
 import 'dayjs/locale/pl';
 import { TimeView } from '@mui/x-date-pickers';
-import { isTimeView } from '@mui/x-date-pickers/internals/utils/time-utils';
 
 //Testing Elements
 
@@ -19,7 +18,7 @@ const blockedDays: Dayjs[] = [
     dayjs('2024-02-20'),
 ];
 
-const blockedHours: number[] = [20, 21, 22, 23];
+//const blockedHours: number[] = [20, 21, 22, 23];
 const hoursOfTheDay: boolean[] = [
     false, false, false, false, false, false,
     false, false, true, true, false, true,
@@ -56,7 +55,7 @@ function shouldDisableTime(value: dayjs.Dayjs, view: TimeView): boolean {
 
 export default function ReservationTime()
 {
-    const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17T15:30'));
+    //const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17T15:30'));
     const today = dayjs();
     const todayStartOfTheDay = today.startOf('day');
     const todayStartOfTheHour = today.startOf('hour');

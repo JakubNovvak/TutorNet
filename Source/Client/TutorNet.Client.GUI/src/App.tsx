@@ -4,7 +4,7 @@ import './App.css';
 import Box from '@mui/material/Box';
 import NavigationBar from './components/NavigationBar/NavigationBar';
 import Footer from './components/Footer/Footer';
-import HomePage from './pages/Home/HomePage';
+//import HomePage from './pages/Home/HomePage';
 import ReservationPage from "./pages/Reservation/ReservationPage";
 
 function App() {
