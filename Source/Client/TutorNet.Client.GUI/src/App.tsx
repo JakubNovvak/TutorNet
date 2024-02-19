@@ -1,5 +1,6 @@
 //import { useState } from 'react'
 //import * as React from 'react';
+import { BrowserRouter as Router, Route, Link, BrowserRouter, Routes } from 'react-router-dom';
 import './App.css';
 import Box from '@mui/material/Box';
 import NavigationBar from './components/NavigationBar/NavigationBar';
@@ -13,22 +14,24 @@ function App() {
 
   return (
     <>
-      <NavigationBar />
-      <Box
-        sx={{
-          minHeight: "calc(100vh - 235px)",
-          //minHeight: "100vh",
-          //backgroundColor: "#e8e8e8",
-          backgroundColor: "white"
-        }}
-      >
-        {/* TODO: Here will be the rest od the content */}
-        {/* <HomePage /> */}
-        {/* <ReservationPage/> */}
-        <FinalizeReservationPage/>
-      </Box>
-      {/* {TODO: Proper implementation fo that spacing below} */}
-      {/* <Box height={150} bgcolor="white"></Box> */}
+      <BrowserRouter>
+      <NavigationBar/>
+        <Box
+          sx={{
+            minHeight: "calc(100vh - 235px)",
+            //minHeight: "100vh",
+            //backgroundColor: "#e8e8e8",
+            backgroundColor: "white"
+          }}
+        >
+          <Routes>
+            <Route path="/" Component={HomePage}/>
+            <Route path="/onlinereservation" Component={ReservationPage}/>
+            <Route path="/onlinereservation/finalize" Component={FinalizeReservationPage}/>
+          </Routes>
+        </Box>
+        {/* <Box height={150} bgcolor="white"></Box> */}
+      </BrowserRouter>
       <Footer />
     </>
   )
