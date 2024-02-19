@@ -2,7 +2,7 @@
 {
     public static class CalendarEntryTypes
     {
-        public enum CalendarEntryType
+        public enum CalendarEntryType 
         { 
             Lesson,
             DayOff,
