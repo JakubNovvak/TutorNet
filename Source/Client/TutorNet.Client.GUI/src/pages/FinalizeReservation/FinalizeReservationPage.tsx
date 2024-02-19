@@ -92,7 +92,7 @@ export default function FinalizeReservationPage()
     }
 
     return(
-        <Formik initialValues={{reservationDate: "test", email: "", name: "", materialRange: "", address:"", phoneNumber: "", Comment: ""}}
+        <Formik initialValues={{reservationDate: "Reservation Date", email: "", name: "", materialRange: "", address:"", phoneNumber: "", Comment: ""}}
         onSubmit={(values) => {console.log(values)}}
        >
             {state ? <FinalizeReservationPageContent reservationDate={item!}/> : <h1 style={{color: "black"}}>Error 404 :/</h1>}
