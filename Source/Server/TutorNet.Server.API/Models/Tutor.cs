@@ -8,6 +8,6 @@
         public string? Email { get; set; }
         public string? Subject { get; set; }
         public int Pricing { get; set; }
-        public ICollection<Lesson>? Lessons { get; set; } = new List<Lesson>();
+        public ICollection<CalendarEntry>? CalendarEntries { get; set; } = new List<CalendarEntry>();
     }
 }
