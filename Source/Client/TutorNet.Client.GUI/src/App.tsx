@@ -27,6 +27,7 @@ function App() {
           <Routes>
             <Route path="/" Component={HomePage}/>
             <Route path="/onlinereservation" Component={ReservationPage}/>
+            <Route path="/onlinereservation/finalize" Component={FinalizeReservationPage}/>
           </Routes>
         </Box>
         {/* <Box height={150} bgcolor="white"></Box> */}
