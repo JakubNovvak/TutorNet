@@ -3,6 +3,8 @@ import GenericFormButton from "../../components/FinalizeReservationPage/GenericF
 import { Form, Formik, useFormik, useFormikContext } from "formik";
 import {FormValues} from "../../components/FinalizeReservationPage/FormValues";
 import SelectFormInput from "../../components/FinalizeReservationPage/SelectFormInput";
+import { useEffect } from "react";
+import dayjs from "dayjs";
 
 const FormMainContainer = styled(Box)({
     backgroundColor: "#edeff2", 
@@ -17,9 +19,17 @@ function onSubmit(){
     //TODO: Communication with the server
 }
 
-function FinalizeReservationPageContent()
+function FinalizeReservationPageContent({reservationDate}: {reservationDate: string})
 {   
     const formikProps = useFormikContext<FormValues>();
+    const date = reservationDate.substring(1, reservationDate.length - 1);
+    const nextHour = dayjs(date).add(1, 'hour').format("H");
+    const formattedDate = dayjs(date).format(`D MMMM H:00-${nextHour}:00`);
+
+    useEffect(() => {
+        formikProps.setFieldValue("reservationDate", formattedDate);
+    }, []);
+
     //GenericFormButton values
     //0 - Reservation Date, 1 - E-mail Address, 2 - Name | Surname, 3 - Material Range, 4 - Address, 5 - Phone Number, 6 - Reservation Comment
 
@@ -27,7 +37,7 @@ function FinalizeReservationPageContent()
         <FormMainContainer>
             <Paper sx={{width: "50rem", maxHeight: "35rem", minHeight: "35rem"}}>
                 <Typography component="div" fontSize={27} fontWeight={540} sx={{pt: "1.2rem", pb: "1.2rem"}}>
-                    Finalize yout reservation
+                    2. Finalize your reservation
                 </Typography>
 
                 <Divider/>
@@ -73,11 +83,19 @@ function FinalizeReservationPageContent()
 
 export default function FinalizeReservationPage()
 {
+    var state: boolean = true;
+    const item = sessionStorage.getItem("ReservationDate");
+    if(item === null)
+    {
+        state = false;
+        console.log("Item in local storage is null.");
+    }
+
     return(
         <Formik initialValues={{reservationDate: "test", email: "", name: "", materialRange: "", address:"", phoneNumber: "", Comment: ""}}
         onSubmit={(values) => {console.log(values)}}
        >
-            <FinalizeReservationPageContent/>
+            {state ? <FinalizeReservationPageContent reservationDate={item!}/> : <h1 style={{color: "black"}}>Error 404 :/</h1>}
         </Formik>
     );
 }
