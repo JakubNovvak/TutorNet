@@ -10,7 +10,14 @@ namespace TutorNet.Server.API.Data
             
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CalendarEntry>()
+                .Property(e => e.CalendarEntryType)
+                .HasConversion<string>();
+        }
+
         public DbSet<Tutor> Tutors { get; set; }
-        public DbSet<Lesson> Lessons { get; set; }
+        public DbSet<CalendarEntry> CalendarEntries { get; set; }
     }
 }

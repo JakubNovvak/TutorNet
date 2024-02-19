@@ -18,6 +18,8 @@ namespace TutorNet.Server.API.Data
 
         private static void SeedDataProduction(AppDbContext? dbContext)
         {
+            //TODO: Implement SQL Server Datbase
+
             if (dbContext == null)
                 throw new ArgumentNullException(nameof(dbContext));
         }
@@ -27,9 +29,19 @@ namespace TutorNet.Server.API.Data
             if (dbContext == null)
                 throw new ArgumentNullException(nameof(dbContext));
 
-            if (!dbContext.Lessons.Any())
+            if (!dbContext.CalendarEntries.Any())
             {
-                //TODO: Implement database seeding
+                //TODO: Implement database seeding with Calendar Entires
+                dbContext.Add(
+                    new CalendarEntry()
+{
+                        CalendarEntryType = CalendarEntryTypes.CalendarEntryType.Lesson, IsAccepted = true,
+                        ReservationDate = new DateTime(2024, 02, 19, 15, 00, 00),
+                        Name = "Jan Kowalski", Email = "jan@wp.pl", Address = "Test, Testowa 1",
+                        MaterialRange = "Other", PhoneNumber = 123456789,
+                        ReservationComment = "Panie Rafale, mam problem z ułamkami pomocy ://",
+                        TutorId = 1
+                });
             }
             else
                 Console.WriteLine(">[DbSeed] Lessons Table already has data.");
@@ -37,7 +49,7 @@ namespace TutorNet.Server.API.Data
             if (!dbContext.Tutors.Any())
             {
                 Console.WriteLine(">[DbSeed] Seeding Data...");
-                //TODO: Implement database seeding
+
                 dbContext.AddRange(
                     new Tutor() { Name = "Jan", Surname = "Kowalski", Email = "jankowalski@test.pl", Subject = "Matematyka", Pricing = 50 }
                     );
