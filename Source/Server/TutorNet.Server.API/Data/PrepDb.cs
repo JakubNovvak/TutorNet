@@ -42,6 +42,8 @@ namespace TutorNet.Server.API.Data
                         ReservationComment = "Panie Rafale, mam problem z ułamkami pomocy ://",
                         TutorId = 1
                 });
+
+                dbContext.SaveChanges();
             }
             else
                 Console.WriteLine(">[DbSeed] Lessons Table already has data.");
