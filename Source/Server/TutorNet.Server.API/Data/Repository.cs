@@ -44,6 +44,12 @@ namespace TutorNet.Server.API.Data
             return calendarEntries;
         }
 
+        public IEnumerable<Tutor> GetAllTutors()
+        {
+            //Caution: empty or null validation should be done at the usege point
+            return _dbContext.Tutors.ToList();
+        }
+
         public IEnumerable<CalendarEntry> GetCalendarEntriesByTutorId(int id)
         {
             if (_dbContext.Tutors.FirstOrDefault(tutor => tutor.Id == id) == null)
@@ -54,11 +60,14 @@ namespace TutorNet.Server.API.Data
             return tutorCalendarEntries;
         }
 
-        public CalendarEntry? GetCalendarEntry(int id)
+        public CalendarEntry? GetCalendarEntry(int tutorId, int calendarEntryId)
         {
-            CalendarEntry? calendarEntry = _dbContext.CalendarEntries.FirstOrDefault(entry => entry.Id == id);
+            if (!_dbContext.Tutors.Any() || !_dbContext.CalendarEntries.Any())
+                return null;
 
-            return calendarEntry;
+            var foundCalendarEntry = _dbContext.CalendarEntries.FirstOrDefault(entry => entry.TutorId == tutorId && entry.Id == calendarEntryId);
+
+            return foundCalendarEntry;
         }
 
         public Tutor? GetTutorById(int id)
