@@ -13,6 +13,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options => {
+    options.AddPolicy("AllowOrigin",
+        builder => builder.WithOrigins("http://localhost:5173"));
+});
+
 if (builder.Environment.IsProduction())
 {
     Console.WriteLine($">[EnvMode] Starting {builder.Environment.EnvironmentName} Mode\n>[DBConf]  Using SQL Server Database");
@@ -46,6 +51,8 @@ if (app.Environment.IsDevelopment())
 PrepDb.PrepPopulation(app, builder.Environment.IsProduction());
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowOrigin");
 
 app.UseAuthorization();
 
