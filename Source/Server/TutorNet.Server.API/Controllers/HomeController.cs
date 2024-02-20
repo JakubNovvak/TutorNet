@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Formats.Asn1;
 using TutorNet.Server.API.Data;
 using TutorNet.Server.API.Dtos;
@@ -21,26 +22,41 @@ namespace TutorNet.Server.API.Controllers
             _mapper = mapper;
         }
 
-        //Probably unnecessary
+        //Action "GetInformations()" -> Deprecated, reason: No need to fetch all Celander Entries regardless the tutor
+
         [HttpGet]
-        public ActionResult<IEnumerable<CalendarEntryReadDto>> GetInformations()
+        public ActionResult<IEnumerable<TutorReadDto>> GetAllTutors()
         {
-            Console.WriteLine(">[HomeCtrl] Testing initial HomeController...");
+            if (_repo.GetAllTutors().IsNullOrEmpty())
+                return NotFound();
 
-            var CalendarEntriesReadDto = _mapper.Map<IEnumerable<CalendarEntryReadDto>>(_repo.GetAllCalendarEntries(1, 19, 2));
+            var tutorsReadDto = _mapper.Map<IEnumerable<TutorReadDto>>(_repo.GetAllTutors());
 
-            return Ok(CalendarEntriesReadDto);
+            return Ok(tutorsReadDto);
         }
 
-        //Caution: Since there is only one Tutor in DB (and probably will be only one) there is no need for "tutorId"
+        //Caution: Since there is only one Tutor in DB (and probably will be only one) there is actually no need for a "tutorId"
         [HttpGet("{tutorId}", Name = "GetCalendarEntriesByTutorId")]
         public ActionResult<IEnumerable<CalendarEntryReadDto>> GetCalendarEntriesByTutorId(int tutorId)
         {
-            Console.WriteLine(">[HomeCtrl] Testing initial HomeController...");
+            //Console.WriteLine(">[HomeCtrl] Testing initial HomeController...");
 
             var CalendarEntriesReadDto = _mapper.Map<IEnumerable<CalendarEntryReadDto>>(_repo.GetCalendarEntriesByTutorId(tutorId));
 
             return Ok(CalendarEntriesReadDto);
+        }
+
+        [HttpGet("{tutorId}/{calendarEntryId}", Name = "GetCalendarEntryById")]
+        public ActionResult<CalendarEntryReadDto> GetCalendarEntryById(int tutorId, int calendarEntryId)
+        {
+            var searchedCalendarEntry = _repo.GetCalendarEntry(tutorId, calendarEntryId);
+
+            if(searchedCalendarEntry == null)
+                return NotFound();
+
+            var searchedCalendarEntryReadDto = _mapper.Map<CalendarEntryReadDto>(searchedCalendarEntry);
+
+            return Ok(searchedCalendarEntryReadDto);
         }
 
         [HttpPost]
