@@ -28,7 +28,7 @@ namespace TutorNet.Server.API.Controllers
         public ActionResult<IEnumerable<TutorReadDto>> GetAllTutors()
         {
             if (_repo.GetAllTutors().IsNullOrEmpty())
-                return NotFound();
+                return NotFound("There are no Tutors to return.");
 
             var tutorsReadDto = _mapper.Map<IEnumerable<TutorReadDto>>(_repo.GetAllTutors());
 
@@ -39,7 +39,8 @@ namespace TutorNet.Server.API.Controllers
         [HttpGet("{tutorId}", Name = "GetCalendarEntriesByTutorId")]
         public ActionResult<IEnumerable<CalendarEntryReadDto>> GetCalendarEntriesByTutorId(int tutorId)
         {
-            //Console.WriteLine(">[HomeCtrl] Testing initial HomeController...");
+            if(_repo.GetCalendarEntriesByTutorId(tutorId) == null)
+                return NotFound($"Tutor with an Id {tutorId} was not found.");
 
             var CalendarEntriesReadDto = _mapper.Map<IEnumerable<CalendarEntryReadDto>>(_repo.GetCalendarEntriesByTutorId(tutorId));
 
@@ -49,10 +50,13 @@ namespace TutorNet.Server.API.Controllers
         [HttpGet("{tutorId}/{calendarEntryId}", Name = "GetCalendarEntryById")]
         public ActionResult<CalendarEntryReadDto> GetCalendarEntryById(int tutorId, int calendarEntryId)
         {
+            if(!_repo.DoesTutorExists(tutorId))
+                return NotFound($"Tutor with an Id {tutorId} does not exist.");
+
             var searchedCalendarEntry = _repo.GetCalendarEntry(tutorId, calendarEntryId);
 
             if(searchedCalendarEntry == null)
-                return NotFound();
+                return NotFound($"There was not found Calendar Entry associated with tutorId {tutorId} or CalendarEntryId {calendarEntryId}.");
 
             var searchedCalendarEntryReadDto = _mapper.Map<CalendarEntryReadDto>(searchedCalendarEntry);
 
@@ -66,7 +70,7 @@ namespace TutorNet.Server.API.Controllers
                 return NotFound();
 
             if(!_repo.DoesTutorExists(calendarEntryReadDto.TutorId))
-                return NotFound();
+                return NotFound($"Tutor with an Id {calendarEntryReadDto.TutorId} does not exists.");
 
             var createdCalendarEntry = _mapper.Map<CalendarEntry>(calendarEntryReadDto);
 
@@ -80,12 +84,14 @@ namespace TutorNet.Server.API.Controllers
             catch (DbUpdateException ex)
             {
                 Console.WriteLine($">[DBErr] There was an error with adding new Calendar Entry: {ex.Message}");
-                return NotFound();
+                return NotFound("There was an error with adding new Calendar Entry.");
             }
 
             var createdCalendarEntryReadDto = _mapper.Map<CalendarEntryReadDto>(createdCalendarEntry);
 
-            return Ok();
+            return CreatedAtRoute(nameof(GetCalendarEntryById), 
+                new { tutorId = calendarEntryReadDto.TutorId, calendarEntryId = createdCalendarEntryReadDto.Id}, 
+                createdCalendarEntryReadDto);
         }
     }
 }

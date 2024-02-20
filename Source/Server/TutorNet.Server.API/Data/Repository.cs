@@ -50,10 +50,10 @@ namespace TutorNet.Server.API.Data
             return _dbContext.Tutors.ToList();
         }
 
-        public IEnumerable<CalendarEntry> GetCalendarEntriesByTutorId(int id)
+        public IEnumerable<CalendarEntry>? GetCalendarEntriesByTutorId(int id)
         {
             if (_dbContext.Tutors.FirstOrDefault(tutor => tutor.Id == id) == null)
-                return new List<CalendarEntry>();
+                return null;
 
             var tutorCalendarEntries = _dbContext.CalendarEntries.Where(entry => entry.TutorId == id).ToList();
 

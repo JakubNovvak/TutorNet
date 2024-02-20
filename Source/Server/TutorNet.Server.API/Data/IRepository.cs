@@ -14,7 +14,7 @@ namespace TutorNet.Server.API.Data
         //Tutor CalendarFunctions
         CalendarEntry? GetCalendarEntry(int tutorId, int calendarEntryId);
         void CreateCalendarEntry(CalendarEntry entry);
-        IEnumerable<CalendarEntry> GetCalendarEntriesByTutorId(int id);
+        IEnumerable<CalendarEntry>? GetCalendarEntriesByTutorId(int id);
         IEnumerable<CalendarEntry> GetAllCalendarEntries(int id, int todaysDay, int todaysMonth);
     }
 }
