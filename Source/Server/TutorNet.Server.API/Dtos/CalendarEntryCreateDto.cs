@@ -18,6 +18,8 @@ namespace TutorNet.Server.API.Dtos
         [Required]
         public string? Address { get; set; }
         [Required]
+        public string? MaterialRange { get; set; }
+        [Required]
         public int PhoneNumber { get; set; }
         [Required]
         public string? ReservationComment { get; set; }

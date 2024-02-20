@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen();
 
 if (builder.Environment.IsProduction())
@@ -26,6 +27,8 @@ else
             opt.UseInMemoryDatabase("InMem")
     );
 }
+
+builder.Services.AddScoped<IRepository, Repository>();
 
 #endregion
 

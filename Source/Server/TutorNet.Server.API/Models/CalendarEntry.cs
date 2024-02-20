@@ -28,5 +28,6 @@ namespace TutorNet.Server.API.Models
         public string? ReservationComment { get; set; }
         [Required]
         public int TutorId { get; set; }
+        public Tutor Tutor { get; set; } = null!;
     }
 }

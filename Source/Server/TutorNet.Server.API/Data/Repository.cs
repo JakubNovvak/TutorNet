@@ -20,8 +20,18 @@ namespace TutorNet.Server.API.Data
             _dbContext.CalendarEntries.Add(entry);
         }
 
-        public IEnumerable<CalendarEntry> GetAllCalendarEntries(int todaysDay, int todaysMonth)
+        public bool DoesTutorExists(int id)
         {
+            if(_dbContext.Tutors.FirstOrDefault(tutor => tutor.Id == id) != null)
+                return true;
+
+            return false;
+        }
+
+        public IEnumerable<CalendarEntry> GetAllCalendarEntries(int id, int todaysDay, int todaysMonth)
+        {
+            //Caution: By default there is only one Tutor in the database
+
             if(!_dbContext.CalendarEntries.Any())
                 return new List<CalendarEntry>();
 
@@ -31,14 +41,43 @@ namespace TutorNet.Server.API.Data
                 (entry.ReservationDate.Month == todaysMonth || entry.ReservationDate.Month == todaysMonth + 1)
             ).ToList();
 
-            throw new NotImplementedException();
+            return calendarEntries;
         }
 
-        public CalendarEntry? GetCalendarEntry(int id)
+        public IEnumerable<Tutor> GetAllTutors()
         {
-            CalendarEntry? calendarEntry = _dbContext.CalendarEntries.FirstOrDefault(entry => entry.Id == id);
+            //Caution: empty or null validation should be done at the usege point
+            return _dbContext.Tutors.ToList();
+        }
 
-            return calendarEntry;
+        public IEnumerable<CalendarEntry>? GetCalendarEntriesByTutorId(int id)
+        {
+            if (_dbContext.Tutors.FirstOrDefault(tutor => tutor.Id == id) == null)
+                return null;
+
+            var tutorCalendarEntries = _dbContext.CalendarEntries.Where(entry => entry.TutorId == id).ToList();
+
+            return tutorCalendarEntries;
+        }
+
+        public CalendarEntry? GetCalendarEntry(int tutorId, int calendarEntryId)
+        {
+            if (!_dbContext.Tutors.Any() || !_dbContext.CalendarEntries.Any())
+                return null;
+
+            var foundCalendarEntry = _dbContext.CalendarEntries.FirstOrDefault(entry => entry.TutorId == tutorId && entry.Id == calendarEntryId);
+
+            return foundCalendarEntry;
+        }
+
+        public Tutor? GetTutorById(int id)
+        {
+            if (!_dbContext.Tutors.Any())
+                return null;
+
+            var searchedTutor = _dbContext.Tutors.FirstOrDefault(t => t.Id == id);
+
+            return searchedTutor;
         }
 
         public bool SaveChanges()

@@ -29,24 +29,7 @@ namespace TutorNet.Server.API.Data
             if (dbContext == null)
                 throw new ArgumentNullException(nameof(dbContext));
 
-            if (!dbContext.CalendarEntries.Any())
-            {
-                //TODO: Implement database seeding with Calendar Entires
-                dbContext.Add(
-                    new CalendarEntry()
-{
-                        CalendarEntryType = CalendarEntryTypes.CalendarEntryType.Lesson, IsAccepted = true,
-                        ReservationDate = new DateTime(2024, 02, 19, 15, 00, 00),
-                        Name = "Jan Kowalski", Email = "jan@wp.pl", Address = "Test, Testowa 1",
-                        MaterialRange = "Other", PhoneNumber = 123456789,
-                        ReservationComment = "Panie Rafale, mam problem z ułamkami pomocy ://",
-                        TutorId = 1
-                });
-
-                dbContext.SaveChanges();
-            }
-            else
-                Console.WriteLine(">[DbSeed] Lessons Table already has data.");
+            //Seeding Tutors Table
 
             if (!dbContext.Tutors.Any())
             {
@@ -59,7 +42,36 @@ namespace TutorNet.Server.API.Data
                 dbContext.SaveChanges();
             }
             else
+            {
                 Console.WriteLine(">[DbSeed] Tutors Table already has data.");
+            }
+
+            //Seeding CalendarEntries Table
+
+            if (!dbContext.CalendarEntries.Any())
+            {
+                //TODO: Implement database seeding with Calendar Entires
+                dbContext.Add(
+                    new CalendarEntry()
+                    {
+                        CalendarEntryType = CalendarEntryTypes.CalendarEntryType.Lesson,
+                        IsAccepted = true,
+                        ReservationDate = new DateTime(2024, 02, 19, 15, 00, 00),
+                        Name = "Jan Kowalski",
+                        Email = "jan@wp.pl",
+                        Address = "Test, Testowa 1",
+                        MaterialRange = "Other",
+                        PhoneNumber = 123456789,
+                        ReservationComment = "Panie Rafale, mam problem z ułamkami pomocy ://",
+                        TutorId = 1
+                    });
+
+                dbContext.SaveChanges();
+            }
+            else
+            {
+                Console.WriteLine(">[DbSeed] Lessons Table already has data.");
+            }
         }
     }
 }
