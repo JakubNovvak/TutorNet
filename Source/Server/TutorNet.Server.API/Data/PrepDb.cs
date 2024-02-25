@@ -62,7 +62,7 @@ namespace TutorNet.Server.API.Data
                         Address = "Test, Testowa 1",
                         MaterialRange = "Other",
                         PhoneNumber = 123456789,
-                        ReservationComment = "Panie Rafale, mam problem z ułamkami pomocy ://",
+                        ReservationComment = "Test Comment",
                         TutorId = 1
                     });
 
@@ -77,7 +77,7 @@ namespace TutorNet.Server.API.Data
                         Address = "Test, Testowa 1",
                         MaterialRange = "Other",
                         PhoneNumber = 123456789,
-                        ReservationComment = "Panie Rafale, mam problem z ułamkami pomocy ://",
+                        ReservationComment = "Test Comment",
                         TutorId = 1
                     });
 
