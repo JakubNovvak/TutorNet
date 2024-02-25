@@ -1,73 +1,62 @@
-//import * as React from 'react';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs, { Dayjs } from 'dayjs';
-import { Box, Typography, /*Paper*/ } from '@mui/material';
-//import { TimePickerProps } from '@mui/x-date-pickers/TimePicker/TimePicker.types';
-import { plPL } from '@mui/x-date-pickers/locales';
 import 'dayjs/locale/pl';
+import dayjs, { Dayjs } from 'dayjs';
 import { TimeView } from '@mui/x-date-pickers';
-import  RouterContext from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
-import React from 'react';
-
-//Testing Elements
-
-const blockedDays: Dayjs[] = [
-    dayjs('2024-02-18'),
-    dayjs('2024-02-19'),
-    dayjs('2024-02-20'),
-];
-
-//const blockedHours: number[] = [20, 21, 22, 23];
-const hoursOfTheDay: boolean[] = [
-    false, false, false, false, false, false,
-    false, false, true, true, false, true,
-    true, true, true, true, true, true,
-    true, true, true, false, false, false,
-];
-
-//Testing Elements
-
+import { plPL } from '@mui/x-date-pickers/locales';
+import { useEffect, useState } from 'react';
+import { Box, CircularProgress, Typography } from '@mui/material';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 function shouldDisableDate(date: Dayjs): boolean {
-    return blockedDays.some(blockedDate => dayjs(date).isSame(blockedDate, 'day'));
+    //TODO: Endpoint needed for disabled days
+    date;
+    return false;
 }
 
-function shouldDisableTime(value: dayjs.Dayjs, view: TimeView): boolean {
-    //test statement
-    // if(value.day() == 5 && value.hour() >= 9)
-    //     return true;
-
+function shouldDisableTime(value: dayjs.Dayjs, view: TimeView, monthArray: boolean[][], isArrayLoading: boolean): boolean {
+    
     //Initial statement
+    //Caution: Hard coded 8-20 hours to choose. Maybe add an API and ability to change from the dashboard
     if(view === 'hours' && (value.hour() <=7 || value.hour() >= 21))
         return true;
-    
+
+    const date1 = dayjs(value.toDate()).hour(0).minute(0).second(0).millisecond(0);
+    const date2 = dayjs().hour(0).minute(0).second(0).millisecond(0);
+
+    const arrayDayIndex = Math.abs(date1.diff(date2, 'day'));
+
+    if((!isArrayLoading && monthArray !== undefined && arrayDayIndex >= 0))
+    {
+        if(view === 'hours' && monthArray[arrayDayIndex][value.hour()] == true)
+            return true;
+    }
+
     //Disable Minutes
     if(view === 'minutes' && value.minute() >= 1)
         return true;
 
     //Disable chosen hours
-    if(view === 'hours' && hoursOfTheDay[value.hour()] == false)
-        return true;
+    //TODO: Endpoint for other types of disabled hours/days (OccupiedHour, DayOff)
 
     return false;
 }
 
-function SaveDateToSessionStorage(key: string, object: any, isDateValid: boolean)
+//Caution: Date saved in LocalTime format
+function SaveDateToSessionStorage(key: string, object: Dayjs | null, isDateValid: boolean)
 {
-    if(isDateValid)
+    if(isDateValid && object != null)
     {
-        sessionStorage.setItem(key, JSON.stringify(object));
+        sessionStorage.setItem(key, object.format());
         location.href = "/onlinereservation/finalize";
     }
 }
 
-export default function ReservationTime()
+export default function ReservationTime({monthArray, isArrayLoading}: {monthArray: boolean[][], isArrayLoading: boolean})
 {
-    const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17T15:30'));
+    const [pickedDate, setPickedDate] = useState<Dayjs | null>(dayjs('2022-04-17T15:30'));
     const [isDateValid, setIsDateValid] = useState<boolean>(false);
+
     const today = dayjs();
     const todayStartOfTheDay = today.startOf('day');
     const todayStartOfTheHour = today.startOf('hour');
@@ -75,11 +64,17 @@ export default function ReservationTime()
     const minDate = today.startOf('year');
     
     useEffect(() => {
-        setValue(todayStartOfTheHour);
+        setPickedDate(todayStartOfTheHour);
     }, []);
 
-    return(
+    if(isArrayLoading)
+        return(
+            <Box sx={{ display: 'flex', justifyContent: "center", alignItems: "center", width: "100%", height: "25rem"}}>
+                <CircularProgress size={50} />
+            </Box>
+        );
 
+    return(
             <Box sx={{paddingTop: "0px"}}>
                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='pl' localeText={plPL.components.MuiLocalizationProvider.defaultProps.localeText}>
                     <Typography variant='h5' sx={{paddingBottom: "1rem"}}>
@@ -88,14 +83,13 @@ export default function ReservationTime()
                     <DateTimePicker open closeOnSelect={false} skipDisabled disablePast sx={{width: "418px"}} ampm={false} timeSteps={{minutes: 60}} defaultValue={todayStartOfTheHour}
                     maxDate={maxDate}
                     minDate={minDate}
-                    shouldDisableTime={shouldDisableTime}
+                    shouldDisableTime={(value, view) => {return shouldDisableTime(value, view, monthArray, isArrayLoading);}}
                     shouldDisableDate={shouldDisableDate}
                     onError={() => {setIsDateValid}}
-                    onChange={(event) => {setValue(event); setIsDateValid(true)}}
-                    onAccept={() => {SaveDateToSessionStorage('ReservationDate', value, isDateValid);}}
+                    onChange={(event) => {setPickedDate(event); setIsDateValid(true)}}
+                    onAccept={() => {SaveDateToSessionStorage('ReservationDate', pickedDate, isDateValid)}}
                     />
                 </LocalizationProvider>
             </Box>
-
     );
 }

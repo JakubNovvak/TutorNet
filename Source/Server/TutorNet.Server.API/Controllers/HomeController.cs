@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Formats.Asn1;
+using System.Net.WebSockets;
 using TutorNet.Server.API.Data;
 using TutorNet.Server.API.Dtos;
 using TutorNet.Server.API.Models;
@@ -18,11 +19,10 @@ namespace TutorNet.Server.API.Controllers
 
         public HomeController(IRepository repo, IMapper mapper)
         {
+            //Caution: All repo methods return Dates in LocalTime
             _repo = repo;
             _mapper = mapper;
         }
-
-        //Action "GetInformations()" -> Deprecated, reason: No need to fetch all Celander Entries regardless the tutor
 
         [HttpGet]
         public ActionResult<IEnumerable<TutorReadDto>> GetAllTutors()
@@ -63,6 +63,44 @@ namespace TutorNet.Server.API.Controllers
             return Ok(searchedCalendarEntryReadDto);
         }
 
+        [HttpGet("reservation/calendar/{tutorId}", Name = "GetArrayOfCalendarEntries")]
+        public ActionResult<bool[][]> GetArrayOfCalendarEntries(int tutorId)
+        {
+            bool[][] monthArray = new bool[31][];
+
+            for (int i = 0; i < 31; i++)
+                monthArray[i] = new bool[24];
+
+            foreach (bool[] innerTable in monthArray)
+                Array.Fill(innerTable, false);
+
+            if (_repo.GetCalendarEntriesBetween(tutorId, DateTime.Now, DateTime.Now.AddDays(31)) == null)
+                return Ok(monthArray);
+
+            //Warning: "GetCalendaerEntriesBetween" returns dates in Local Time, not UTC.
+            var calendarEntriesBetween = _repo.GetCalendarEntriesBetween(tutorId, DateTime.Now, DateTime.Now.AddDays(31))!;
+
+            int hourArrayIndex;
+            var datePresentDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+            foreach (var calendarEntry in calendarEntriesBetween)
+            {
+                //Caution: Since Array holds hours in range of 0-23, index is an exact hour returned by DateTime.Hour
+                hourArrayIndex = calendarEntry.ReservationDate.Hour;
+                var calendarEntryDay = new DateTime(
+                    calendarEntry.ReservationDate.Year, 
+                    calendarEntry.ReservationDate.Month, 
+                    calendarEntry.ReservationDate.Day, 
+                    0, 0, 0);
+
+                //Caution: Yearly time shift doesn't affect Substract
+                int dayArrayIndex = calendarEntryDay.Subtract(datePresentDay).Days;
+
+                monthArray[dayArrayIndex][hourArrayIndex] = true;
+            }
+
+            return Ok(monthArray);
+        }
+
         [HttpPost]
         public ActionResult<CalendarEntryReadDto> CreateCalendarEntry(CalendarEntryCreateDto calendarEntryReadDto)
         {
@@ -73,8 +111,6 @@ namespace TutorNet.Server.API.Controllers
                 return NotFound($"Tutor with an Id {calendarEntryReadDto.TutorId} does not exists.");
 
             var createdCalendarEntry = _mapper.Map<CalendarEntry>(calendarEntryReadDto);
-
-            //createdCalendarEntry.Tutor = _repo.GetTutorById(createdCalendarEntry.TutorId);
 
             try
             {
@@ -88,6 +124,7 @@ namespace TutorNet.Server.API.Controllers
             }
 
             var createdCalendarEntryReadDto = _mapper.Map<CalendarEntryReadDto>(createdCalendarEntry);
+            Console.WriteLine($"<[POST] Regular: {createdCalendarEntryReadDto.ReservationDate}, ToLocalTime: {createdCalendarEntryReadDto.ReservationDate.ToLocalTime()}, ToUTC: {createdCalendarEntryReadDto.ReservationDate.ToUniversalTime()}");
 
             return CreatedAtRoute(nameof(GetCalendarEntryById), 
                 new { tutorId = calendarEntryReadDto.TutorId, calendarEntryId = createdCalendarEntryReadDto.Id}, 

@@ -17,6 +17,9 @@ namespace TutorNet.Server.API.Data
             if (entry == null)
                 throw new DbUpdateException();
 
+            //Caution: Prevents adding different format of time
+            entry.ReservationDate = entry.ReservationDate.ToUniversalTime();
+
             _dbContext.CalendarEntries.Add(entry);
         }
 
@@ -28,18 +31,18 @@ namespace TutorNet.Server.API.Data
             return false;
         }
 
-        public IEnumerable<CalendarEntry> GetAllCalendarEntries(int id, int todaysDay, int todaysMonth)
+        public IEnumerable<CalendarEntry> GetAllCalendarEntries(int tutorId, int todaysDay, int todaysMonth)
         {
             //Caution: By default there is only one Tutor in the database
 
             if(!_dbContext.CalendarEntries.Any())
                 return new List<CalendarEntry>();
 
-            //TODO: Return only entries, which are between ThisMonth::ThisDay -> ThisMonth+1::ThisDay
+            List<CalendarEntry> calendarEntries = _dbContext.CalendarEntries.ToList();
 
-            List<CalendarEntry> calendarEntries = _dbContext.CalendarEntries.Where(entry => 
-                (entry.ReservationDate.Month == todaysMonth || entry.ReservationDate.Month == todaysMonth + 1)
-            ).ToList();
+            foreach (var calendarEntry in calendarEntries)
+                calendarEntry.ReservationDate.ToLocalTime();
+
 
             return calendarEntries;
         }
@@ -50,12 +53,38 @@ namespace TutorNet.Server.API.Data
             return _dbContext.Tutors.ToList();
         }
 
+        public IEnumerable<CalendarEntry>? GetCalendarEntriesBetween(int tutorId, DateTime startingDateLocal, DateTime endingDateLocal)
+        {
+            if (!_dbContext.CalendarEntries.Any() || !_dbContext.CalendarEntries.Where(e => e.TutorId == tutorId).Any())
+                return null;
+
+            var calendarEntries = _dbContext.CalendarEntries.Where( entry =>
+                (DateTime.Compare(entry.ReservationDate.ToLocalTime(), startingDateLocal) > 0 &&
+                 DateTime.Compare(entry.ReservationDate.ToLocalTime(), endingDateLocal) < 0)   ||
+                 DateTime.Compare(entry.ReservationDate.ToLocalTime(), startingDateLocal) == 0
+                ).ToList();
+
+            if (!calendarEntries.Any())
+                return null;
+
+            foreach (var calendarEntry in calendarEntries)
+                calendarEntry.ReservationDate = calendarEntry.ReservationDate.ToLocalTime();
+
+
+            return calendarEntries;
+        }
+
         public IEnumerable<CalendarEntry>? GetCalendarEntriesByTutorId(int id)
         {
             if (_dbContext.Tutors.FirstOrDefault(tutor => tutor.Id == id) == null)
                 return null;
 
             var tutorCalendarEntries = _dbContext.CalendarEntries.Where(entry => entry.TutorId == id).ToList();
+
+            if(tutorCalendarEntries.Any())
+                foreach (var calendaerEntry in tutorCalendarEntries)
+                    calendaerEntry.ReservationDate = calendaerEntry.ReservationDate.ToLocalTime();
+
 
             return tutorCalendarEntries;
         }
@@ -66,6 +95,9 @@ namespace TutorNet.Server.API.Data
                 return null;
 
             var foundCalendarEntry = _dbContext.CalendarEntries.FirstOrDefault(entry => entry.TutorId == tutorId && entry.Id == calendarEntryId);
+
+            if (foundCalendarEntry != null)
+                foundCalendarEntry.ReservationDate = foundCalendarEntry.ReservationDate.ToLocalTime();
 
             return foundCalendarEntry;
         }

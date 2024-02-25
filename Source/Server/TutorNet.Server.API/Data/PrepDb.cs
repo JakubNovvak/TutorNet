@@ -56,13 +56,28 @@ namespace TutorNet.Server.API.Data
                     {
                         CalendarEntryType = CalendarEntryTypes.CalendarEntryType.Lesson,
                         IsAccepted = true,
-                        ReservationDate = new DateTime(2024, 02, 19, 15, 00, 00),
+                        ReservationDate = new DateTime(2024, 02, 27, 15, 00, 00).ToUniversalTime(),
                         Name = "Jan Kowalski",
                         Email = "jan@wp.pl",
                         Address = "Test, Testowa 1",
                         MaterialRange = "Other",
                         PhoneNumber = 123456789,
-                        ReservationComment = "Panie Rafale, mam problem z ułamkami pomocy ://",
+                        ReservationComment = "Test Comment",
+                        TutorId = 1
+                    });
+
+                dbContext.Add(
+                    new CalendarEntry()
+                    {
+                        CalendarEntryType = CalendarEntryTypes.CalendarEntryType.Lesson,
+                        IsAccepted = true,
+                        ReservationDate = new DateTime(2024, 02, 27, 16, 00, 00).ToUniversalTime(),
+                        Name = "Jan Kowalski",
+                        Email = "jan@wp.pl",
+                        Address = "Test, Testowa 1",
+                        MaterialRange = "Other",
+                        PhoneNumber = 123456789,
+                        ReservationComment = "Test Comment",
                         TutorId = 1
                     });
 
