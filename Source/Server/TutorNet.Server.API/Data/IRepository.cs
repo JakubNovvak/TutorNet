@@ -16,5 +16,6 @@ namespace TutorNet.Server.API.Data
         void CreateCalendarEntry(CalendarEntry entry);
         IEnumerable<CalendarEntry>? GetCalendarEntriesByTutorId(int id);
         IEnumerable<CalendarEntry> GetAllCalendarEntries(int id, int todaysDay, int todaysMonth);
+        IEnumerable<CalendarEntry>? GetCalendaerEntriesBetween(int tutorId, DateTime startingDate, DateTime endingDate);
     }
 }
