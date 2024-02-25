@@ -23,8 +23,6 @@ namespace TutorNet.Server.API.Controllers
             _mapper = mapper;
         }
 
-        //Action "GetInformations()" -> Deprecated, reason: No need to fetch all Celander Entries regardless the tutor
-
         [HttpGet]
         public ActionResult<IEnumerable<TutorReadDto>> GetAllTutors()
         {
@@ -86,8 +84,8 @@ namespace TutorNet.Server.API.Controllers
             foreach (var calendarEntry in calendarEntriesBetween)
             {
                 //Console.Write($">[GetAct] UTC: {calendarEntry.ReservationDate}, GMT+1: {calendarEntry.ReservationDate.ToLocalTime()} ");
-                //Caution: Since Array holds hours 0-23, index is an exact hour. Hour 15:00 GMT+1 added to the Database, would be parsed to 14:00 UTC.
-                //Warning: 
+
+                //Caution: Since Array holds hours in range of 0-23, index is an exact hour returned by DateTime.Hour
                 hourArrayIndex = calendarEntry.ReservationDate.Hour;
                 var calendarEntryDay = new DateTime(
                     calendarEntry.ReservationDate.Year, 
@@ -95,7 +93,7 @@ namespace TutorNet.Server.API.Controllers
                     calendarEntry.ReservationDate.Day, 
                     0, 0, 0);
 
-                //CAUTION: Yearly time shift doesn't affect Substract
+                //Caution: Yearly time shift doesn't affect Substract
                 int dayArrayIndex = calendarEntryDay.Subtract(datePresentDay).Days;
                 //int dayArrayIndex = calendarEntry.ReservationDate.Subtract(DateTime.Now).Days;
                 Console.WriteLine(hourArrayIndex);
