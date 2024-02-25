@@ -1,5 +1,4 @@
-import { Box, Card, CardMedia, CardContent, Typography, styled } from '@mui/material';
-import { red } from '@mui/material/colors';
+import { Box, Card, CardMedia, CardContent, Typography } from '@mui/material';
 
 export default function CarouselCard({ imagePath }: {imagePath? : string})
 {

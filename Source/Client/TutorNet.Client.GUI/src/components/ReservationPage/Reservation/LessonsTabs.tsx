@@ -46,10 +46,10 @@ export default function LessonsTabs() {
   const [monthArray, setMonthArray] = React.useState<boolean[][]>([]);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+    event;
   };
 
   React.useEffect(() => {
-    //setMonthArray(test);
     GetArrayOfCalendarEntries(setIsLoading, setMonthArray);
     if(monthArray !== undefined && !isLoading)
       console.log("Loading state: " + isLoading + " test[][]: ");

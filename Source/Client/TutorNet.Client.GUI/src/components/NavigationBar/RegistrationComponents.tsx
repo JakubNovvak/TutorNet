@@ -1,6 +1,5 @@
 import {Box, Button} from '@mui/material';
 import { Link } from 'react-router-dom';
-//import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 
 export default function RegistrationComponents(){
     return (

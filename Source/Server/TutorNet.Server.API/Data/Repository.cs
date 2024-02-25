@@ -53,22 +53,15 @@ namespace TutorNet.Server.API.Data
             return _dbContext.Tutors.ToList();
         }
 
-        /// <summary>
-        /// Caution: Can return null - empty or null validation should be done at the usege point.
-        /// </summary>
-        /// <param name="tutorId"></param>
-        /// <param name="startingDateLocal"></param>
-        /// <param name="endingDateLocal"></param>
-        /// <returns><![CDATA[ List<CalendarEntry> | null ]]></returns>
-        public IEnumerable<CalendarEntry>? GetCalendaerEntriesBetween(int tutorId, DateTime startingDateLocal, DateTime endingDateLocal)
+        public IEnumerable<CalendarEntry>? GetCalendarEntriesBetween(int tutorId, DateTime startingDateLocal, DateTime endingDateLocal)
         {
             if (!_dbContext.CalendarEntries.Any() || !_dbContext.CalendarEntries.Where(e => e.TutorId == tutorId).Any())
                 return null;
 
             var calendarEntries = _dbContext.CalendarEntries.Where( entry =>
                 (DateTime.Compare(entry.ReservationDate.ToLocalTime(), startingDateLocal) > 0 &&
-                DateTime.Compare(entry.ReservationDate.ToLocalTime(), endingDateLocal) < 0)   ||
-                DateTime.Compare(entry.ReservationDate.ToLocalTime(), startingDateLocal) == 0
+                 DateTime.Compare(entry.ReservationDate.ToLocalTime(), endingDateLocal) < 0)   ||
+                 DateTime.Compare(entry.ReservationDate.ToLocalTime(), startingDateLocal) == 0
                 ).ToList();
 
             if (!calendarEntries.Any())

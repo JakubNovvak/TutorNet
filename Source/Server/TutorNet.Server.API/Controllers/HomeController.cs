@@ -19,6 +19,7 @@ namespace TutorNet.Server.API.Controllers
 
         public HomeController(IRepository repo, IMapper mapper)
         {
+            //Caution: All repo methods return Dates in LocalTime
             _repo = repo;
             _mapper = mapper;
         }
@@ -73,18 +74,16 @@ namespace TutorNet.Server.API.Controllers
             foreach (bool[] innerTable in monthArray)
                 Array.Fill(innerTable, false);
 
-            if (_repo.GetCalendaerEntriesBetween(tutorId, DateTime.Now, DateTime.Now.AddDays(31)) == null)
+            if (_repo.GetCalendarEntriesBetween(tutorId, DateTime.Now, DateTime.Now.AddDays(31)) == null)
                 return Ok(monthArray);
 
             //Warning: "GetCalendaerEntriesBetween" returns dates in Local Time, not UTC.
-            var calendarEntriesBetween = _repo.GetCalendaerEntriesBetween(tutorId, DateTime.Now, DateTime.Now.AddDays(31))!;
+            var calendarEntriesBetween = _repo.GetCalendarEntriesBetween(tutorId, DateTime.Now, DateTime.Now.AddDays(31))!;
 
             int hourArrayIndex;
             var datePresentDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
             foreach (var calendarEntry in calendarEntriesBetween)
             {
-                //Console.Write($">[GetAct] UTC: {calendarEntry.ReservationDate}, GMT+1: {calendarEntry.ReservationDate.ToLocalTime()} ");
-
                 //Caution: Since Array holds hours in range of 0-23, index is an exact hour returned by DateTime.Hour
                 hourArrayIndex = calendarEntry.ReservationDate.Hour;
                 var calendarEntryDay = new DateTime(
@@ -95,19 +94,14 @@ namespace TutorNet.Server.API.Controllers
 
                 //Caution: Yearly time shift doesn't affect Substract
                 int dayArrayIndex = calendarEntryDay.Subtract(datePresentDay).Days;
-                //int dayArrayIndex = calendarEntry.ReservationDate.Subtract(DateTime.Now).Days;
-                Console.WriteLine(hourArrayIndex);
-                monthArray[dayArrayIndex][hourArrayIndex] = true;
 
-                Console.WriteLine($">[GetAct] Days between {datePresentDay} and {calendarEntryDay}: {dayArrayIndex} days, {hourArrayIndex} hourArrayIndex.");
-                //Console.WriteLine($">[GetAct] Days between {datePresentDay} and {calendarEntryDay}: {calendarEntry.ReservationDate.Subtract(DateTime.Now)}");
+                monthArray[dayArrayIndex][hourArrayIndex] = true;
             }
 
             return Ok(monthArray);
         }
 
         [HttpPost]
-        //CAUTION: CalendarEntry's date should me 
         public ActionResult<CalendarEntryReadDto> CreateCalendarEntry(CalendarEntryCreateDto calendarEntryReadDto)
         {
             if (calendarEntryReadDto == null)
