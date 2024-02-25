@@ -1,6 +1,4 @@
-//import { useState } from 'react'
-//import * as React from 'react';
-import { BrowserRouter as Router, Route, Link, BrowserRouter, Routes } from 'react-router-dom';
+import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import './App.css';
 import Box from '@mui/material/Box';
 import NavigationBar from './components/NavigationBar/NavigationBar';
@@ -10,8 +8,7 @@ import ReservationPage from "./pages/Reservation/ReservationPage";
 import FinalizeReservationPage from "./pages/FinalizeReservation/FinalizeReservationPage";
 
 function App() {
-  //const [count, setCount] = useState(0)
-
+  
   return (
     <>
       <BrowserRouter>

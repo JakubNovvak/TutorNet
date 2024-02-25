@@ -1,10 +1,10 @@
-import { Box, Button, Divider, FormControl, FormLabel, Grid, Input, Paper, Typography, styled } from "@mui/material";
+import { Box, Button, Divider, Grid, Paper, Typography, styled } from "@mui/material";
 import GenericFormButton from "../../components/FinalizeReservationPage/GenericFormInput";
-import { Form, Formik, FormikValues, useFormik, useFormikContext } from "formik";
+import { Form, Formik, FormikValues, useFormikContext } from "formik";
 import {FormValues, CalendarEntryCreateDto} from "../../components/FinalizeReservationPage/FormValues";
 import SelectFormInput from "../../components/FinalizeReservationPage/SelectFormInput";
 import { useEffect } from "react";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import POSTCalendarEntry from "../../components/FinalizeReservationPage/API/FetchData";
 
 const FormMainContainer = styled(Box)({
@@ -17,8 +17,7 @@ const FormMainContainer = styled(Box)({
 })
 
 function onSubmit(formikValues: FormikValues){
-    //TODO: Communication with the server
-    //CAUTION: there is only one tutor in DB, with no near plans of adding more. Should be changed if needed
+    //Caution: there is only one tutor in DB, with no near plans of adding more. Should be changed if needed
     const createdCalendarEntry: CalendarEntryCreateDto = {
         CalendarEntryType: 0,
         IsAccepted: false,
@@ -47,7 +46,7 @@ function FinalizeReservationPageContent({reservationDate}: {reservationDate: str
         formikProps.setFieldValue("reservationDate", reservationDate);
     }, []);
 
-    //GenericFormButton values
+    //GenericFormButton InputNumber values
     //0 - Reservation Date, 1 - E-mail Address, 2 - Name | Surname, 3 - Material Range, 4 - Address, 5 - Phone Number, 6 - Reservation Comment
 
     return(
@@ -70,8 +69,8 @@ function FinalizeReservationPageContent({reservationDate}: {reservationDate: str
                                 <GenericFormButton FormikValue={formikProps.values.name} FormikValueOnChange={formikProps.handleChange} FormikOnBlur={formikProps.handleBlur}
                                 InputNumber={2} Size={6} idName="name" displayValue={null}
                                 />
-                                <SelectFormInput FormikValue={formikProps.values.materialRange} FormikValueOnChange={formikProps.handleChange} formikSetValue={formikProps.setFieldValue}
-                                InputNumber={3} Size={6} idName="materialRange"
+                                <SelectFormInput FormikValue={formikProps.values.materialRange} /*FormikValueOnChange={formikProps.handleChange}*/ formikSetValue={formikProps.setFieldValue}
+                                /*InputNumber={3}*/ Size={6} idName="materialRange"
                                 />
                                 <GenericFormButton FormikValue={formikProps.values.address} FormikValueOnChange={formikProps.handleChange} FormikOnBlur={formikProps.handleBlur}
                                 InputNumber={4} Size={6} idName="address" displayValue={null}

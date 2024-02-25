@@ -1,5 +1,5 @@
 import { FormikErrors } from "formik";
-import * as yup from "yup";
+//import * as yup from "yup";
 
 export interface FormValues {
     reservationDate: string;
@@ -32,6 +32,26 @@ export const RangeValues: string[] = [
     "Secondary School, Advanced",
     "Matura Exam Revision"
 ]
+
+export const LabelsArray: string[] = [
+    "Reservation Date", 
+    "E-mail Address", 
+    "Name | Surname", 
+    "Material Range", 
+    "Address", 
+    "Phone Number", 
+    "Reservation Comment"
+];
+
+export const placeholdersArray: string[] = [
+    "12 February 12-13", 
+    "example@example.com", 
+    "Jan Kowalski", 
+    "Primary School - 6 grade", 
+    "Test, Testowa 15A", 
+    "+48 123 456 789", 
+    "Reservation Comment"
+];
 
 export type FormikOnChangeHandler = {
     (e: React.ChangeEvent<any>): void;
