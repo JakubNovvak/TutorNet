@@ -1,4 +1,5 @@
 import { FormikErrors } from "formik";
+import * as yup from "yup";
 
 export interface FormValues {
     reservationDate: string;
@@ -8,6 +9,19 @@ export interface FormValues {
     address: string;
     phoneNumber: string; 
     Comment: string;
+}
+
+export type CalendarEntryCreateDto = {
+    CalendarEntryType: number,
+    IsAccepted: Boolean,
+    ReservationDate: Date,
+    Name: string,
+    Email: string,
+    Address: string,
+    MaterialRange: string, 
+    PhoneNumber: number,
+    ReservationComment: string,
+    TutorId: number
 }
 
 export const RangeValues: string[] = [
