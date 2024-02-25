@@ -51,8 +51,6 @@ export default function LessonsTabs() {
 
   React.useEffect(() => {
     GetArrayOfCalendarEntries(setIsLoading, setMonthArray);
-    if(monthArray !== undefined && !isLoading)
-      console.log("Loading state: " + isLoading + " test[][]: ");
   }, []);
 
   return (
