@@ -27,11 +27,11 @@ export default function GenericFormButton({ InputNumber, idName, FormikValue, Fo
     return(
         <GridItem item xs={InputNumber == 6 ? 12 : 6}>
             <FormControl>
-                <FormLabel sx={{marginRight: "auto", fontSize: "0.8rem", marginBottom: "-0.0rem"}}>
-                    <div style={{display: "flex", justifyContent: "left"}}>{LabelsArray[InputNumber]}</div>
+                <FormLabel sx={{marginRight: "auto", fontSize: "0.8rem", marginBottom: "-0.0rem", textAlign: "left"}}>
+                    {LabelsArray[InputNumber]}
                     <Input id={idName} className="outlined-input" placeholder={placeholdersArray[InputNumber]}
                     disabled={InputNumber == 0 ? true : false}
-                    type={InputNumber == 5 ? "number" : ""}
+                    // type={InputNumber == 5 ? "number" : ""}
                     value={displayValue === null ? FormikValue : displayValue} onChange={InputNumber == 0 ? () => {} : FormikValueOnChange} onBlur={FormikOnBlur}
                     sx={{minWidth: InputNumber == 6 ? "40rem" : "21rem"}}
                     startDecorator={InputNumber == 5 ? "+48" : ""}
