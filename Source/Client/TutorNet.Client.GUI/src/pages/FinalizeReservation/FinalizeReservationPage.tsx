@@ -12,6 +12,7 @@ const FormMainContainer = styled(Box)({
     backgroundColor: "#edeff2", 
     width: "100vw", 
     height: "calc(100vh - 16.05rem)",
+    minHeight: "calc(100vh - 16.05rem)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
@@ -121,9 +122,11 @@ export default function FinalizeReservationPage()
 
     if(sendingState)
         return(
+            <FormMainContainer sx={{flexDirection: "column"}}>
             <Box sx={{ display: 'flex', justifyContent: "center", alignItems: "center", width: "100%", height: "25rem"}}>
                 <CircularProgress size={50} />
             </Box>
+            </FormMainContainer>
         );
 
     if(sendSucess == 1)

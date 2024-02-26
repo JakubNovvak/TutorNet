@@ -14,7 +14,7 @@ export default function ReservationPage()
 {
     return(
         <SectionsContainer>
-            <Grid container spacing={0} justifyContent="center" sx={{backgroundColor: "#edeff2", pt: "1.7rem", minWidth: "120rem", maxWidth: "180rem"}}>
+            <Grid container spacing={0} justifyContent="center" sx={{backgroundColor: "#edeff2", pt: "1.7rem", minWidth: "100rem", maxWidth: "180rem"}}>
                 <Grid item xs={4} sx={{display: "flex", justifyContent: "center", width: "100%", backgroundColor: "none"}}>
                     <TutorProfile />
                 </Grid>
