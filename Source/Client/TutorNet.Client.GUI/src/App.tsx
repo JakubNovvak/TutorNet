@@ -11,11 +11,12 @@ function App() {
   
   return (
     <>
+    <h1 style={{position: "fixed", marginLeft: "40vw", opacity: "0.5", color: "#918e8e", zIndex: "20"}}>This is only a Demo view</h1>
       <BrowserRouter>
       <NavigationBar/>
         <Box
           sx={{
-            minHeight: "calc(100vh - 235px)",
+            minHeight: "calc(100vh - 50rem)",
             //minHeight: "100vh",
             //backgroundColor: "#e8e8e8",
             backgroundColor: "white"

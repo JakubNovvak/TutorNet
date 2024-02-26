@@ -6,16 +6,17 @@ export default async function GetArrayOfCalendarEntries(setIsLoading: React.Disp
     setIsLoading(true);
     try{
         //CAUTION: there is only one tutor in DB, with no near plans of adding more. Should be changed if needed
-        const response = await axios.get<boolean[][]>('https://localhost:7043/api/Home/reservation/calendar/1');
-        
-        setMonthArray(await response.data);
+        //const response = await axios.get<boolean[][]>('https://localhost:7043/api/Home/reservation/calendar/1');
+        await new Promise(resolve => setTimeout(resolve, 1500));      
+        //setMonthArray(await response.data);
         setIsLoading(false);
     }
     catch(error)
     {
-        console.error("There was an issue with Calendar Entries GET request: ", {error});
-        await new Promise(resolve => setTimeout(resolve, 8000));
-        console.log("Retrying connection to the Server...");
-        GetArrayOfCalendarEntries(setIsLoading, setMonthArray);
+        //console.error("There was an issue with Calendar Entries GET request: ", {error});
+
+        //console.log("Retrying connection to the Server...");
+
+        //GetArrayOfCalendarEntries(setIsLoading, setMonthArray);
     }
 }

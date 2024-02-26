@@ -55,7 +55,7 @@ export default function LessonsTabs() {
 
   return (
     <>
-      <Paper elevation={3} sx={{minHeight: "38rem", maxHeight: "50rem", minWidth: "32rem"}}>       
+      <Paper elevation={3} sx={{minHeight: "38rem", maxHeight: "50rem", minWidth: "32rem",  maxWidth: "40rem"}}>       
         <Box sx={{ width: '100%'}}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" variant='fullWidth'>

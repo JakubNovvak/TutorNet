@@ -8,29 +8,37 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
+const blockedDays: Dayjs[] = [
+    dayjs('2024-03-01'),
+    dayjs('2024-02-27'),
+    dayjs('2024-03-02'),
+    dayjs('2024-03-14'),
+    dayjs('2024-03-15'),
+    dayjs('2024-03-16'),
+
+];
+
 function shouldDisableDate(date: Dayjs): boolean {
-    //TODO: Endpoint needed for disabled days
-    date;
-    return false;
+    return blockedDays.some(blockedDate => dayjs(date).isSame(blockedDate, 'day'));
 }
 
 function shouldDisableTime(value: dayjs.Dayjs, view: TimeView, monthArray: boolean[][], isArrayLoading: boolean): boolean {
-    
+
     //Initial statement
     //Caution: Hard coded 8-20 hours to choose. Maybe add an API and ability to change from the dashboard
     if(view === 'hours' && (value.hour() <=7 || value.hour() >= 21))
         return true;
 
-    const date1 = dayjs(value.toDate()).hour(0).minute(0).second(0).millisecond(0);
-    const date2 = dayjs().hour(0).minute(0).second(0).millisecond(0);
+    // const date1 = dayjs(value.toDate()).hour(0).minute(0).second(0).millisecond(0);
+    // const date2 = dayjs().hour(0).minute(0).second(0).millisecond(0);
 
-    const arrayDayIndex = Math.abs(date1.diff(date2, 'day'));
+    // const arrayDayIndex = Math.abs(date1.diff(date2, 'day'));
 
-    if((!isArrayLoading && monthArray !== undefined && arrayDayIndex >= 0))
-    {
-        if(view === 'hours' && monthArray[arrayDayIndex][value.hour()] == true)
-            return true;
-    }
+    // if((!isArrayLoading && monthArray !== undefined && arrayDayIndex >= 0))
+    // {
+    //     if(view === 'hours' && monthArray[arrayDayIndex][value.hour()] == true)
+    //         return true;
+    // }
 
     //Disable Minutes
     if(view === 'minutes' && value.minute() >= 1)

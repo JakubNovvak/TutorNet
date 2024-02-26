@@ -3,7 +3,7 @@ import { Box, Card, CardMedia, CardContent, Typography } from '@mui/material';
 export default function CarouselCard({ imagePath, titleString, descString, bottomString }: {imagePath? : string, titleString: string, descString: string, bottomString :string})
 {
     return(
-        <Box height={650} width="100%" display="flex" alignItems="center" justifyContent="center" /*sx={{bgcolor: "gray"}}*/ gap={30}>
+        <Box height={650} width="100%" display="flex" alignItems="center" justifyContent="center" sx={{ minWidth: "80rem"}} gap={30}>
             <Card sx={{display: 'flex'}} elevation={10}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', width: "550px" }}>
                     <CardContent sx={{ flex: '1 0 auto', display: "flex", flexDirection: "column", justifyContent: "center", marginLeft: "100px" }}>

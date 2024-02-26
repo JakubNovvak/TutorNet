@@ -11,7 +11,7 @@ import PositionedSnackbar from "../../components/FinalizeReservationPage/PostErr
 const FormMainContainer = styled(Box)({
     backgroundColor: "#edeff2", 
     width: "100vw", 
-    height: "calc(100vh - 235px)",
+    height: "calc(100vh - 16.05rem)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
