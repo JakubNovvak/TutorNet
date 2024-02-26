@@ -1,11 +1,13 @@
-import { Box, Button, Divider, Grid, Paper, Typography, styled } from "@mui/material";
+import { Box, Button, CircularProgress, Divider, Grid, Paper, Typography, styled } from "@mui/material";
 import GenericFormButton from "../../components/FinalizeReservationPage/GenericFormInput";
 import { Form, Formik, FormikValues, useFormikContext } from "formik";
-import {FormValues, CalendarEntryCreateDto} from "../../components/FinalizeReservationPage/FormValues";
+import {FormValues, CalendarEntryCreateDto, BasicSchema} from "../../components/FinalizeReservationPage/FormValues";
 import SelectFormInput from "../../components/FinalizeReservationPage/SelectFormInput";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import POSTCalendarEntry from "../../components/FinalizeReservationPage/API/FetchData";
+import { Alert } from "@mui/joy";
+import PositionedSnackbar from "../../components/FinalizeReservationPage/PostErrorSnackbar";
 
 const FormMainContainer = styled(Box)({
     backgroundColor: "#edeff2", 
@@ -16,7 +18,7 @@ const FormMainContainer = styled(Box)({
     alignItems: "center"
 })
 
-function onSubmit(formikValues: FormikValues){
+function onSubmit(formikValues: FormikValues, setSendingState: React.Dispatch<React.SetStateAction<boolean>>, sendSucess: React.Dispatch<React.SetStateAction<number>>){
     //Caution: there is only one tutor in DB, with no near plans of adding more. Should be changed if needed
     const createdCalendarEntry: CalendarEntryCreateDto = {
         CalendarEntryType: 0,
@@ -31,11 +33,11 @@ function onSubmit(formikValues: FormikValues){
         TutorId: 1
     }
 
-    POSTCalendarEntry(createdCalendarEntry);
+    POSTCalendarEntry(createdCalendarEntry, setSendingState, sendSucess);
 
 }
 
-function FinalizeReservationPageContent({reservationDate}: {reservationDate: string})
+function FinalizeReservationPageContent({reservationDate, sendSucess}: {reservationDate: string, sendSucess: number})
 {   
     const formikProps = useFormikContext<FormValues>();
     const date = reservationDate.substring(0, reservationDate.length - 6);
@@ -49,6 +51,8 @@ function FinalizeReservationPageContent({reservationDate}: {reservationDate: str
     //GenericFormButton InputNumber values
     //0 - Reservation Date, 1 - E-mail Address, 2 - Name | Surname, 3 - Material Range, 4 - Address, 5 - Phone Number, 6 - Reservation Comment
 
+    //TODO: Passing "FormikValue", "FormikValueOnChange", "FormikOnBlur" as a one parameter to the "GenericFormButton" doesn't work properly.
+    //      Code needs refactorization in another way
     return(
         <FormMainContainer>
             <Paper sx={{width: "50rem", maxHeight: "35rem", minHeight: "35rem"}}>
@@ -61,25 +65,25 @@ function FinalizeReservationPageContent({reservationDate}: {reservationDate: str
                         <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", minHeight: "22rem"}}>
                             <Grid container sx={{width: "100%", backgroundColor: "none", height: "100%"}}>
                                 <GenericFormButton FormikValue={formikProps.values.reservationDate} FormikValueOnChange={formikProps.handleChange} FormikOnBlur={formikProps.handleBlur} 
-                                InputNumber={0} Size={6} idName="reservationDate" displayValue={dispalyDate}
+                                InputNumber={0} displayValue={dispalyDate} idName="reservationDate" formikError={formikProps.errors.reservationDate} formikTouched={formikProps.touched.reservationDate}
                                 />
                                 <GenericFormButton FormikValue={formikProps.values.email} FormikValueOnChange={formikProps.handleChange} FormikOnBlur={formikProps.handleBlur}
-                                InputNumber={1} Size={6} idName="email" displayValue={null}
+                                InputNumber={1} displayValue={null} idName="email" formikError={formikProps.errors.email} formikTouched={formikProps.touched.email}
                                 />
                                 <GenericFormButton FormikValue={formikProps.values.name} FormikValueOnChange={formikProps.handleChange} FormikOnBlur={formikProps.handleBlur}
-                                InputNumber={2} Size={6} idName="name" displayValue={null}
+                                InputNumber={2} displayValue={null} idName="name" formikError={formikProps.errors.name} formikTouched={formikProps.touched.name}
                                 />
                                 <SelectFormInput FormikValue={formikProps.values.materialRange} /*FormikValueOnChange={formikProps.handleChange}*/ formikSetValue={formikProps.setFieldValue}
-                                /*InputNumber={3}*/ Size={6} idName="materialRange"
+                                /*InputNumber={3}*/ Size={6} idName="materialRange" formikError={formikProps.errors.materialRange} formikTouched={formikProps.touched.materialRange}
                                 />
                                 <GenericFormButton FormikValue={formikProps.values.address} FormikValueOnChange={formikProps.handleChange} FormikOnBlur={formikProps.handleBlur}
-                                InputNumber={4} Size={6} idName="address" displayValue={null}
+                                InputNumber={4} displayValue={null} idName="address" formikError={formikProps.errors.address} formikTouched={formikProps.touched.address}
                                 />
                                 <GenericFormButton FormikValue={formikProps.values.phoneNumber} FormikValueOnChange={formikProps.handleChange} FormikOnBlur={formikProps.handleBlur}
-                                InputNumber={5} Size={6} idName="phoneNumber" displayValue={null}
+                                InputNumber={5} displayValue={null} idName="phoneNumber" formikError={formikProps.errors.phoneNumber} formikTouched={formikProps.touched.phoneNumber}
                                 />
                                 <GenericFormButton FormikValue={formikProps.values.Comment} FormikValueOnChange={formikProps.handleChange} FormikOnBlur={formikProps.handleBlur}
-                                InputNumber={6} Size={12} idName="Comment" displayValue={null}
+                                InputNumber={6} displayValue={null} idName="Comment" formikError={formikProps.errors.Comment} formikTouched={formikProps.touched.Comment}
                                 />
                             </Grid>
                         </Box>
@@ -87,7 +91,12 @@ function FinalizeReservationPageContent({reservationDate}: {reservationDate: str
                         <Grid container sx={{paddingTop: "1.8rem"}}>
                             <Grid item xs={12}>
                                 <Typography>
+                                    {!formikProps.isValid || sendSucess == 2
+                                    ?
+                                    <Button disabled sx={{color: "black", backgroundColor: "lightgray"}}>Confirm and Send</Button>
+                                    :
                                     <Button type="submit" sx={{color: "black", backgroundColor: "lightBlue"}}>Confirm and Send</Button>
+                                    }
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -100,6 +109,10 @@ function FinalizeReservationPageContent({reservationDate}: {reservationDate: str
 export default function FinalizeReservationPage()
 {
     var state: boolean = true;
+    const [sendingState, setSendingState] = useState<boolean>(false);
+    const [sendSucess, setSendSucess] = useState<number>(0);
+    //0 - neutral, 1 - success, 2 - failed
+    console.log("sendSucess: " + sendSucess);
     const storageReservationDate = sessionStorage.getItem("ReservationDate");
     if(storageReservationDate === null)
     {
@@ -107,11 +120,34 @@ export default function FinalizeReservationPage()
         console.log("Item in local storage is null.");
     }
 
+    if(sendingState)
+        return(
+            <Box sx={{ display: 'flex', justifyContent: "center", alignItems: "center", width: "100%", height: "25rem"}}>
+                <CircularProgress size={50} />
+            </Box>
+        );
+
+    if(sendSucess == 1)
+        return(
+            <FormMainContainer sx={{flexDirection: "column"}}>
+                <Typography variant="h4" color={"black"}>
+                    All done - thanks for your reservation!
+                </Typography>
+                <Typography variant="h5" color={"black"} sx={{marginTop: "2rem"}}>
+                    You will hear from us about your reservation state, as soon as possible.
+                </Typography>
+            </FormMainContainer>
+        );
+
     return(
+        <>
+        {sendSucess == 2 ? <PositionedSnackbar/> : <></>}
         <Formik initialValues={{reservationDate: "Reservation Date", email: "", name: "", materialRange: "", address:"", phoneNumber: "", Comment: ""}}
-        onSubmit={(values) => {console.log(values), onSubmit(values)}}
+        onSubmit={(values) => {console.log(values), onSubmit(values, setSendingState, setSendSucess)}}
+        validationSchema={BasicSchema}
        >
-            {state ? <FinalizeReservationPageContent reservationDate={storageReservationDate!}/> : <h1 style={{color: "black"}}>Error 404 :/</h1>}
+            {state ? <FinalizeReservationPageContent reservationDate={storageReservationDate!} sendSucess={sendSucess}/> : <h1 style={{color: "black"}}>Error 404 :/</h1>}
         </Formik>
+        </>
     );
 }

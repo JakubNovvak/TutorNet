@@ -1,5 +1,5 @@
-import { FormikErrors } from "formik";
-//import * as yup from "yup";
+import { FormikContextType, FormikErrors } from "formik";
+import * as yup from "yup";
 
 export interface FormValues {
     reservationDate: string;
@@ -30,7 +30,8 @@ export const RangeValues: string[] = [
     "Primary School, Grade 7-9",
     "Secondary School, Basic",
     "Secondary School, Advanced",
-    "Matura Exam Revision"
+    "Matura Exam Revision",
+    "Other"
 ]
 
 export const LabelsArray: string[] = [
@@ -49,8 +50,8 @@ export const placeholdersArray: string[] = [
     "Jan Kowalski", 
     "Primary School - 6 grade", 
     "Test, Testowa 15A", 
-    "+48 123 456 789", 
-    "Reservation Comment"
+    "123 456 789", 
+    "Reservation Comment (Optional)"
 ];
 
 export type FormikOnChangeHandler = {
@@ -69,4 +70,15 @@ export type FormikSelectOnChangeHandler = ((event: React.MouseEvent<Element, Mou
     | null, value: string 
     | null) => void) | undefined;
 
-export type FormikSetValue = (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<FormValues>>
+export type FormikSetValue = (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<FormValues>>;
+
+export type FormikValidate = FormikContextType<FormValues>;
+
+export const BasicSchema = yup.object().shape({
+    name: yup.string().min(3).required("Required"),
+    email: yup.string().email("Please provide vaild email address.").required("Required"),
+    address: yup.string().min(3).required("Required"),
+    materialRange: yup.string().min(1).oneOf(RangeValues).required("Required"),
+    phoneNumber: yup.number().required().positive().integer(),
+    Comment: yup.string().min(0).default(() => "")
+});
