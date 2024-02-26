@@ -21,7 +21,6 @@ namespace TutorNet.Server.API.Dtos
         public string? MaterialRange { get; set; }
         [Required]
         public int PhoneNumber { get; set; }
-        [Required]
         public string? ReservationComment { get; set; }
         [Required]
         public int TutorId { get; set; }

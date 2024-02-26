@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -74,7 +75,7 @@ namespace TutorNet.Server.API.Controllers
             foreach (bool[] innerTable in monthArray)
                 Array.Fill(innerTable, false);
 
-            if (_repo.GetCalendarEntriesBetween(tutorId, DateTime.Now, DateTime.Now.AddDays(31)) == null)
+            if (_repo.GetCalendarEntriesBetween(tutorId, DateTime.Now, DateTime.Now.AddDays(31)).IsNullOrEmpty())
                 return Ok(monthArray);
 
             //Warning: "GetCalendaerEntriesBetween" returns dates in Local Time, not UTC.
@@ -102,15 +103,18 @@ namespace TutorNet.Server.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult<CalendarEntryReadDto> CreateCalendarEntry(CalendarEntryCreateDto calendarEntryReadDto)
+        public ActionResult<CalendarEntryReadDto> CreateCalendarEntry(CalendarEntryCreateDto calendarEntryCreateDto)
         {
-            if (calendarEntryReadDto == null)
+            if (calendarEntryCreateDto == null)
                 return NotFound();
 
-            if(!_repo.DoesTutorExists(calendarEntryReadDto.TutorId))
-                return NotFound($"Tutor with an Id {calendarEntryReadDto.TutorId} does not exists.");
+            if (!_repo.DoesTutorExists(calendarEntryCreateDto.TutorId))
+                return NotFound($"Tutor with an Id {calendarEntryCreateDto.TutorId} does not exists.");
 
-            var createdCalendarEntry = _mapper.Map<CalendarEntry>(calendarEntryReadDto);
+            if (calendarEntryCreateDto.ReservationComment.IsNullOrEmpty())
+                calendarEntryCreateDto.ReservationComment = "No info provided.";
+
+            var createdCalendarEntry = _mapper.Map<CalendarEntry>(calendarEntryCreateDto);
 
             try
             {
@@ -120,14 +124,13 @@ namespace TutorNet.Server.API.Controllers
             catch (DbUpdateException ex)
             {
                 Console.WriteLine($">[DBErr] There was an error with adding new Calendar Entry: {ex.Message}");
-                return NotFound("There was an error with adding new Calendar Entry.");
+                return NotFound($"There was an error with adding new Calendar Entry: {ex.Message}");
             }
 
             var createdCalendarEntryReadDto = _mapper.Map<CalendarEntryReadDto>(createdCalendarEntry);
-            Console.WriteLine($"<[POST] Regular: {createdCalendarEntryReadDto.ReservationDate}, ToLocalTime: {createdCalendarEntryReadDto.ReservationDate.ToLocalTime()}, ToUTC: {createdCalendarEntryReadDto.ReservationDate.ToUniversalTime()}");
 
             return CreatedAtRoute(nameof(GetCalendarEntryById), 
-                new { tutorId = calendarEntryReadDto.TutorId, calendarEntryId = createdCalendarEntryReadDto.Id}, 
+                new { tutorId = calendarEntryCreateDto.TutorId, calendarEntryId = createdCalendarEntryReadDto.Id}, 
                 createdCalendarEntryReadDto);
         }
     }
