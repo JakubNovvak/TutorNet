@@ -19,7 +19,7 @@ export type CalendarEntryCreateDto = {
     Email: string,
     Address: string,
     MaterialRange: string, 
-    PhoneNumber: number,
+    PhoneNumber: string,
     ReservationComment: string,
     TutorId: number
 }
@@ -79,6 +79,6 @@ export const BasicSchema = yup.object().shape({
     email: yup.string().email("Please provide vaild email address.").required("Required"),
     address: yup.string().min(3).required("Required"),
     materialRange: yup.string().min(1).oneOf(RangeValues).required("Required"),
-    phoneNumber: yup.number().required().positive().integer(),
+    phoneNumber: yup.string().min(5).matches(/^[0-9]*$/, "Phone number can only contain numbers.").required("Required"),
     Comment: yup.string().min(0).default(() => "")
 });

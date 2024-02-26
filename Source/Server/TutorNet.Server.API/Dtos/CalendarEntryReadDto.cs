@@ -13,7 +13,7 @@ namespace TutorNet.Server.API.Dtos
         public string? Email { get; set; }
         public string? Address { get; set; }
         public string? MaterialRange { get; set; }
-        public int PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         public string? ReservationComment { get; set; }
         public int TutorId { get; set; }
     }

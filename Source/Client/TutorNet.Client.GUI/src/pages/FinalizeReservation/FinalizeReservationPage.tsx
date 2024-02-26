@@ -6,7 +6,6 @@ import SelectFormInput from "../../components/FinalizeReservationPage/SelectForm
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import POSTCalendarEntry from "../../components/FinalizeReservationPage/API/FetchData";
-import { Alert } from "@mui/joy";
 import PositionedSnackbar from "../../components/FinalizeReservationPage/PostErrorSnackbar";
 
 const FormMainContainer = styled(Box)({
@@ -28,7 +27,7 @@ function onSubmit(formikValues: FormikValues, setSendingState: React.Dispatch<Re
         Email: formikValues.email,
         Address: formikValues.address,
         MaterialRange: formikValues.materialRange,
-        PhoneNumber: Math.abs(parseInt(formikValues.phoneNumber)),
+        PhoneNumber: formikValues.phoneNumber.toString(),
         ReservationComment: formikValues.Comment,
         TutorId: 1
     }
