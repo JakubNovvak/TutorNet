@@ -27,7 +27,6 @@ function App() {
             <Route path="/onlinereservation/finalize" Component={FinalizeReservationPage}/>
           </Routes>
         </Box>
-        {/* <Box height={150} bgcolor="white"></Box> */}
       </BrowserRouter>
       <Footer />
     </>

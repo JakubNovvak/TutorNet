@@ -1,6 +1,6 @@
 import { Box, Card, CardMedia, CardContent, Typography } from '@mui/material';
 
-export default function CarouselCard({ imagePath }: {imagePath? : string})
+export default function CarouselCard({ imagePath, titleString, descString, bottomString }: {imagePath? : string, titleString: string, descString: string, bottomString :string})
 {
     return(
         <Box height={650} width="100%" display="flex" alignItems="center" justifyContent="center" /*sx={{bgcolor: "gray"}}*/ gap={30}>
@@ -8,13 +8,13 @@ export default function CarouselCard({ imagePath }: {imagePath? : string})
                 <Box sx={{ display: 'flex', flexDirection: 'column', width: "550px" }}>
                     <CardContent sx={{ flex: '1 0 auto', display: "flex", flexDirection: "column", justifyContent: "center", marginLeft: "100px" }}>
                         <Typography component="div" variant="h4" fontWeight="bold" sx={{marginTop: "80px"}}>
-                            Study from the comfort of your own house!
+                            {titleString}
                         </Typography>
                         <Typography component="div" variant='h5' sx={{marginTop: "20px"}}>
-                            Group studying? Individual lessons? 
+                            {descString}
                         </Typography>
                         <Typography sx={{marginTop: "80px"}} variant='h5' fontWeight="bold">
-                            It's up to you!
+                            {bottomString}
                         </Typography>
                     </CardContent>
                 </Box>

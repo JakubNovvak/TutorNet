@@ -31,6 +31,8 @@ export default function Support(){
                 </CardBox>
 
             </Box> 
+
+            <Box height={140} bgcolor="white"></Box>
         
         </>
     );

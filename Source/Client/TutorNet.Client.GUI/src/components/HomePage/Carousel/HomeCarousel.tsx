@@ -38,19 +38,31 @@ export default function HomeCarousel(){
 
             <Slider {...settings}>
                 <CardContainer>
-                    <CarouselCard imagePath={Image1} />
+                    <CarouselCard imagePath={Image1} 
+                    titleString="Do you feel best studying in your room?" 
+                    descString="Our tutors are up to this task!" 
+                    bottomString="Make home studying easy." />
                 </CardContainer>
 
                 <CardContainer>
-                    <CarouselCard imagePath={Image2}/>
+                    <CarouselCard imagePath={Image2} 
+                    titleString="Stressed out by your graduation exam?"
+                    descString="Graduate from your school with class!"
+                    bottomString="Choose tutor specializing in this area!"/>
                 </CardContainer>
 
                 <CardContainer>
-                    <CarouselCard imagePath={Image3}/>
+                    <CarouselCard imagePath={Image3} 
+                    titleString="Worried about the noise in your household?"
+                    descString="Office lessons, or even meeting at the local bar."
+                    bottomString="It's up to you!"/>
                 </CardContainer>
 
                 <CardContainer>
-                    <CarouselCard imagePath={Image4}/>
+                    <CarouselCard imagePath={Image4} 
+                    titleString="Study from the comfort of your own house!" 
+                    descString="Group studying? Individual lessons? " 
+                    bottomString="It's up to you!" />
                 </CardContainer>
             </Slider>
 
