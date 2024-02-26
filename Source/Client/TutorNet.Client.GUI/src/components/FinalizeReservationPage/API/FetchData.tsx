@@ -1,5 +1,5 @@
 import { CalendarEntryCreateDto } from "../FormValues";
-import axios from "axios";
+//import axios from "axios";
 
 export default async function POSTCalendarEntry(createdCalendarEntry: CalendarEntryCreateDto, setSendingState: React.Dispatch<React.SetStateAction<boolean>>, 
                                                                                               setSendSucess: React.Dispatch<React.SetStateAction<number>>)
@@ -17,6 +17,7 @@ export default async function POSTCalendarEntry(createdCalendarEntry: CalendarEn
     }
     catch(error)
     {
+        createdCalendarEntry;
         console.error("There was an issie with \"POSTCalendarEntry\" POST request: ", {error});
         setSendSucess(2);
         setSendingState(false);

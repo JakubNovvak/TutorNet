@@ -1,4 +1,4 @@
-import axios from "axios";
+//import axios from "axios";
 
 export default async function GetArrayOfCalendarEntries(setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
                                                         setMonthArray: React.Dispatch<React.SetStateAction<boolean[][]>>)
@@ -16,7 +16,7 @@ export default async function GetArrayOfCalendarEntries(setIsLoading: React.Disp
         //console.error("There was an issue with Calendar Entries GET request: ", {error});
 
         //console.log("Retrying connection to the Server...");
-
+        setMonthArray;
         //GetArrayOfCalendarEntries(setIsLoading, setMonthArray);
     }
 }

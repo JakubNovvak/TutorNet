@@ -14,7 +14,7 @@ const blockedDays: Dayjs[] = [
     dayjs('2024-03-02'),
     dayjs('2024-03-14'),
     dayjs('2024-03-15'),
-    dayjs('2024-03-16'),
+    dayjs('2024-03-16')
 
 ];
 
@@ -29,6 +29,11 @@ function shouldDisableTime(value: dayjs.Dayjs, view: TimeView, monthArray: boole
     if(view === 'hours' && (value.hour() <=7 || value.hour() >= 21))
         return true;
 
+    if(false)
+    {
+        isArrayLoading;
+        monthArray;
+    }
     // const date1 = dayjs(value.toDate()).hour(0).minute(0).second(0).millisecond(0);
     // const date2 = dayjs().hour(0).minute(0).second(0).millisecond(0);
 
