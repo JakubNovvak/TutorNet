@@ -18,6 +18,10 @@ namespace TutorNet.Server.API.Data
                 .WithOne(c => c.Tutor)
                 .HasForeignKey(c => c.TutorId)
                 .IsRequired(true);
+
+            modelBuilder.Entity<CalendarEntry>()
+                .Property(c => c.ReservationComment)
+                .IsRequired(false);
         }
 
         public DbSet<Tutor> Tutors { get; set; }

@@ -23,8 +23,7 @@ namespace TutorNet.Server.API.Models
         [Required]
         public string? MaterialRange { get; set; }
         [Required]
-        public int PhoneNumber { get; set; }
-        [Required]
+        public string? PhoneNumber { get; set; }
         public string? ReservationComment { get; set; }
         [Required]
         public int TutorId { get; set; }

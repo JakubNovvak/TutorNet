@@ -61,7 +61,7 @@ namespace TutorNet.Server.API.Data
                         Email = "jan@wp.pl",
                         Address = "Test, Testowa 1",
                         MaterialRange = "Other",
-                        PhoneNumber = 123456789,
+                        PhoneNumber = "123456789",
                         ReservationComment = "Test Comment",
                         TutorId = 1
                     });
@@ -76,7 +76,7 @@ namespace TutorNet.Server.API.Data
                         Email = "jan@wp.pl",
                         Address = "Test, Testowa 1",
                         MaterialRange = "Other",
-                        PhoneNumber = 123456789,
+                        PhoneNumber = "123456789",
                         ReservationComment = "Test Comment",
                         TutorId = 1
                     });
