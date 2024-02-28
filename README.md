@@ -73,7 +73,7 @@ Project Link: [github.com/JakubNovvak/TutorNet](https://github.com/JakubNovvak/T
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[product-screenshot]: https://i.ibb.co/5KnWHjf/obraz-2024-02-26-135909979.png
+[product-screenshot]: https://i.ibb.co/phbcfqJ/obraz-2024-02-28-160702496.png
 [.NetCsharp]: https://img.shields.io/badge/-.NET%208.0%20%7C%20%20C%23%2012.0-blueviolet?style=for-the-badge
 [.NetCsharp-url]: https://dotnet.microsoft.com/en-us/
 [React.ts]: https://img.shields.io/badge/React.ts-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
