@@ -46,7 +46,7 @@ export default function TutorTabsInfo() {
   };
 
   return (
-    <Box sx={{ width: '100%', marginTop: "0.5rem" }}>
+    <Box sx={{ width: '100%', maxWidth:"32rem",  marginTop: "0.5rem" }}>
       <Box sx={{ borderBottom: 3, borderColor: '#edeff2' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" variant='fullWidth'>
           <Tab label="Info" {...a11yProps(0)} />
@@ -55,13 +55,19 @@ export default function TutorTabsInfo() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        {"<Info Placeholder>"}
+        <Typography sx={{textAlign: "left"}}>
+            Hi! I'm a former school teacher and I found my passion in being a "mobile teacher".
+          </Typography>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        {"<Pricing Placeholder>"}
+        <Typography variant='h6' sx={{textAlign: "left"}}>          
+          Lesson at Home - 70zł
+        </Typography>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        {"<Contact Placeholder>"}
+        <Typography variant='h6' sx={{textAlign: "left"}}>
+          E-mail Address - johnsmith@test.com
+        </Typography>
       </CustomTabPanel>
     </Box>
   );
