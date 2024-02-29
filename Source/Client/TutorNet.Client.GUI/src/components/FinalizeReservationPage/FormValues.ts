@@ -75,10 +75,10 @@ export type FormikSetValue = (field: string, value: any, shouldValidate?: boolea
 export type FormikValidate = FormikContextType<FormValues>;
 
 export const BasicSchema = yup.object().shape({
-    name: yup.string().min(3).required("Required"),
+    name: yup.string().min(3).max(50).required("Required"),
     email: yup.string().email("Please provide vaild email address.").required("Required"),
-    address: yup.string().min(3).required("Required"),
-    materialRange: yup.string().min(1).oneOf(RangeValues).required("Required"),
+    address: yup.string().min(3).max(100).required("Required"),
+    materialRange: yup.string().min(1).max(15).oneOf(RangeValues).required("Required"),
     phoneNumber: yup.string().min(5).matches(/^[0-9]*$/, "Phone number can only contain numbers.").required("Required"),
-    Comment: yup.string().min(0).default(() => "")
+    Comment: yup.string().min(0).max(200).default(() => "")
 });
