@@ -26,6 +26,8 @@ TutorNet is the reservation-based system for tutoring lessons. The idea of the p
 
 The future objective of development is to give users the ability to verify their reservation with a code message sent to their phone or email.
 
+Project was designed using standard Client and Server distinction, with the Server-side architecture focused on a classic monolithic approach.
+
 ## Current Stage of Development
 
 At the moment, there is only one tutor in the database. Furthermore, there is only a reservation view of an already chosen tutor, without a "search through tutors" page. Project's target is a web app with multiple tutors, each having their own reservation dashboards.
